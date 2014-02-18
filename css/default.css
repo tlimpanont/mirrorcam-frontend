@@ -1,4 +1,4 @@
-html, body { overflow: hidden !important;}
+/*html, body { overflow: hidden !important;}*/
 .tab-pane { padding-top: 20px;}
 /*.aside { width: 800px; }*/
 .dropdown-menu { z-index: 9999 !important;}

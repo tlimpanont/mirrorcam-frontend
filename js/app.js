@@ -1,6 +1,6 @@
 FWDUtils.onReady(function(){
 
-    angular.module('myApp', ['snap', 'ui.router', 'ngSanitize', 'mgcrea.ngStrap', 'mirrorcam'])
+    angular.module('myApp', ['ui.router', 'ngSanitize', 'mgcrea.ngStrap', 'mirrorcam'])
     .config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
            // $locationProvider.html5Mode(true);
@@ -25,7 +25,7 @@ FWDUtils.onReady(function(){
             })
         }
     ])
-    .controller("mainCtrl", function($scope, $http, $sce, resolve, $aside, mirrorcam, snapRemote) {
+    .controller("mainCtrl", function($scope, $http, $sce, resolve, $aside, mirrorcam) {
         //console.log(resolve);
 
         $scope.mirrorcam = mirrorcam;
