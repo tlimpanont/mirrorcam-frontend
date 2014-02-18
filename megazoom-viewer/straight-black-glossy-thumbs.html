@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+	
+	<title>Megazoom Image Viewer</title>
+	
+	<link rel="stylesheet" type="text/css"  href="skin_straight_black_glossy/global.css"/>
+	<link rel="stylesheet" type="text/css"  href="straight_black_glossy_java_and_css/page.css"/>
+	
+	<script type="text/javascript" src="straight_black_glossy_java_and_css/FWDThumbs.js"></script>
+	<script type="text/javascript" src="java/FWDPageMenu.js"></script>
+	<script type="text/javascript" src="java/FWDPageMenuButton.js"></script>
+	<script type="text/javascript" src="java/FWDPageThumbs.js"></script>
+	<script type="text/javascript" src="java/FWDPageThumb.js"></script>
+	<script type="text/javascript" src="java/FWDMegazoom.js"></script>
+
+	<script type="text/javascript">
+		
+		var megazoom;
+	
+		FWDUtils.onReady(function(){
+			init();
+			setupZoomer("straight_black_glossy_graphics/imageToZoom.jpg", "megazoomPlayList", "straight_black_glossy_graphics/navigatorImage.jpg", 3000, 3857);
+		});
+		
+		
+		function setupZoomer(imagePath, playListAndSkinId, navigatorImagePath, imageWidth, imageHeight){
+
+			if(megazoom){
+				megazoom.destroy();
+				megazoom = null;
+			}
+				
+			megazoom =  new FWDMegazoom({
+				//----main----//
+				parentId:"productHolder",
+				playListAndSkinId:playListAndSkinId,
+				displayType:"responsive",
+				skinPath:"skin_straight_black_glossy/skin/",
+				imagePath:imagePath,
+				preloaderText:"Loading image...",
+				useEntireScreen:"yes",
+				addKeyboardSupport:"yes",
+				addDoubleClickSupport:"yes",
+				imageWidth:imageWidth,
+				imageHeight:imageHeight,
+				zoomFactor:1.1,
+				doubleClickZoomFactor:1,
+				startZoomFactor:"default",
+				panSpeed:8,
+				zoomSpeed:.1,
+				backgroundColor:"#020204",
+				preloaderFontColor:"#a2a3a3",
+				preloaderBackgroundColor:"#000000",
+				//----lightbox-----//
+				lightBoxWidth:800,
+				lightBoxHeight:550,
+				lightBoxBackgroundOpacity:.8,
+				lightBoxBackgroundColor:"#000000",
+				//----controller----//
+				buttons:"moveLeft, moveRight, moveDown, moveUp, scrollbar, hideOrShowMarkers, hideOrShowController, info, fullscreen",
+				buttonsToolTips:"Move left, Move right, Move down, Move up, Zoom level: , Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
+				controllerPosition:"bottom",
+				inversePanDirection:"yes",
+				startSpaceBetweenButtons:10,
+				spaceBetweenButtons:10,
+				startSpaceForScrollBarButtons:20,
+				startSpaceForScrollBar:6,
+				hideControllerDelay:3,
+				controllerMaxWidth:934,
+				controllerBackgroundOpacity:1,
+				controllerOffsetY:3,
+				scrollBarOffsetX:0,
+				scrollBarHandlerToolTipOffsetY:4,
+				zoomInAndOutToolTipOffsetY:-4,
+				buttonsToolTipOffsetY:0,
+				hideControllerOffsetY:7,
+				buttonToolTipFontColor:"#a2a3a3",
+				//----navigator----//
+				showNavigator:"yes",
+				navigatorImagePath:navigatorImagePath,
+				navigatorPosition:"topright",
+				navigatorOffsetX:6,
+				navigatorOffsetY:6,
+				navigatorHandlerColor:"#FF0000",
+				navigatorBorderColor:"#AAAAAA",
+				//----info window----//
+				infoWindowBackgroundOpacity:.6,
+				infoWindowBackgroundColor:"#000000",
+				infoWindowScrollBarColor:"#999999",
+				//----markers-----//
+				showMarkersInfo:"no",
+				markerToolTipOffsetY:0,
+				//----context menu----//
+				showScriptDeveloper:"no",
+				contextMenuLabels:"Move left, Move right, Move down, Move up, Zoom in/Zoom out, Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
+				contextMenuBackgroundColor:"#4c4c4c",
+				contextMenuBorderColor:"#727272",
+				contextMenuSpacerColor:"#727272",
+				contextMenuItemNormalColor:"#a2a3a3",
+				contextMenuItemSelectedColor:"#FFFFFF",
+				contextMenuItemDisabledColor:"#595b5b"
+			});
+		}
+	</script>
+		
+</head>
+
+<body>
+	
+	<!-- header -->
+	<div id="mainHeader">
+		<img id="html5" src="straight_black_glossy_graphics/html5.png"></img>
+		<img id="logoImage" src="straight_black_glossy_graphics/logo.jpg"></img>
+		<img id="byFWD" src="straight_black_glossy_graphics/fwd.png"></img>
+	</div>
+	
+	<!-- menu holder -->
+	<div id="menuHolder"></div>
+	
+	<!-- product holder -->
+	<div id="mainProductHolder">
+		<img id="productHolderBackground" src="straight_black_glossy_graphics/productBk.jpg"></img>
+		<div id="productHolder"></div>
+	</div>
+	
+	<!-- thumbnails holder -->
+	<div class="label2">Select preview:</div>
+	<div id="mainThumbsHolder">
+		<div id="thumbsHolder"></div>
+	</div>
+	
+	<!-- what is -->
+	<div id="mainInfoHolder">
+		<div id="mainWhyBuyText">
+			<div id="whyBuyText">
+				<p class="firstP">This page is created to demonstrate that it is possible to change the image dynamically. In order for this to work the previous instance is destroyed and a new one is created with a different image and/or markers, for simplicity we have used four different images but they all have the same graphics with some small modifications.</p>
+				<p class="middleP">Please note that the megazoom does not include any API to create thumbnails, instead of thumbnails any HTML tag can be used, for example a HTML button or image. We have chosen thumbnails because in most cases this kind of approach is used.</p>
+				<p class="middleP">In the documentation files it is explained in detail how to change the image dynamically on the same page.</p>
+				<p class="middleP">This example is included in the download files but we have created a simple example that can be used as reference.</p>
+			</div>
+		</div>
+	</div>
+	
+	<!-- start megazoom, display:none is added in case that js is disabled! -->
+	<div id="megazoomPlayList" style="display:none;">
+		<!-- info window-->
+		<ul data-info="">
+			<div class="infoDiv">
+				<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+				<img class="leftImage" src="skin_straight_black_glossy/css_graphics/camera1.png" width="197" height="136">
+				<p class="leftImageParagraph"><span class="boldDark">This type of window support unlimited text</span>, if the html content is too large on a mouse enabled device a scrollbar will appear and if the device has touch support the html content can be scrolled with the finger. This window has a responsive layout this means that it will adapt based on the available space (resize the browser window to see this feature in action). <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius.Nunc ac turpis nulla. Vestibulum placerat metus urna.</p>
+				<div class="separator"></div>
+				<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+				<img class="rightImage" src="skin_straight_black_glossy/css_graphics/camera2.png" width="197" height="136"/>
+				<p class="rightImageParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, <a class="link" href="http://www.google.com" target="_blank">external link</a> rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+				<div class="columnsSeparator"></div>
+				<div class="columns">
+					<p class="columnsFirstParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+					<p><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+					<p class="columnsLastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>	
+				</div>
+				<div class="separator"></div>
+				<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+				<iframe  class="youtubeVideo" src="http://www.youtube.com/embed/tC6uAfGun54?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+				<p class="lastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra.</p>
+			</div>
+		</ul>
+		
+		<!-- markers -->
+		<ul data-markers="">
+		
+			<li data-marker-type="link" data-reg-point="center" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker6.png" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker6-rollover.png" data-marker-left="1127" data-marker-top="2366" data-marker-width="27" data-marker-height="27" data-show-after-zoom-factor="0" data-tool-tip-label="External link (url and target can be specified)" data-marker-url="http://www.google.com" data-marker-target="_blank"></li>
+	
+			<li data-marker-type="link" data-reg-point="centerbottom" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker3.png" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker3-rollover.png" data-marker-left="1458" data-marker-top="1721" data-marker-width="27" data-marker-height="34" data-show-after-zoom-factor="0" data-tool-tip-label="External link (url and target can be specified)" data-marker-url="http://www.google.com" data-marker-target="_blank"></li>
+			
+			<li data-marker-type="link" data-reg-point="centerbottom" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker3.png" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker3-rollover.png" data-marker-left="1506" data-marker-top="1989" data-marker-width="27" data-marker-height="34" data-show-after-zoom-factor=".55" data-tool-tip-label="External link (url and target can be specified)" data-marker-url="http://www.google.com" data-marker-target="_blank"></li>
+			
+			<li data-marker-type="tooltip" data-show-content="yes" data-reg-point="centerbottom" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker1.png" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker1-rollover.png" data-marker-left="1506" data-marker-top="2836" data-marker-width="27" data-marker-height="34" data-show-after-zoom-factor="0">
+				<div class="markerToolTipInfoDiv1">
+					<img class="image1" src="skin_straight_black_glossy/css_graphics/image1.jpg" width="247" height="138"/>
+					<p class="paragraph1">This type of tooltip windows can be added with ease, they have a responsive layout and CSS support <a class="link" href="http://www.google.com" target="_blank">external link example</a>.  The hotspots / markers can be of any size or shape and of course custom graphics can be used (.jpg, .png or .gif).</p>
+				</div>
+			</li>
+			
+			<li data-marker-type="tooltip" data-show-content="yes" data-reg-point="center" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker4.gif" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker4-rollover.png" data-marker-left="1427" data-marker-top="551" data-marker-width="27" data-marker-height="27" data-show-after-zoom-factor="0">
+				<div class="markerToolTipInfoDiv2">
+					<img class="image2" src="skin_straight_black_glossy/css_graphics/image2.jpg" width="80" height="196"/>
+					<p class="paragraph2">This type of tooltip windows can be added with ease, they have a responsive layout and CSS support <a class="link" href="http://www.google.com" target="_blank">external link example</a>.  The hotspots / markers can be of any size or shape and of course custom graphics can be used (.jpg, .png or .gif).</p>
+				</div>
+			</li>
+			
+			<li data-marker-type="tooltip" data-show-content="yes" data-reg-point="centerbottom" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker1.png" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker1-rollover.png" data-marker-left="1454" data-marker-top="334" data-marker-width="27" data-marker-height="34" data-show-after-zoom-factor="0.55">
+				<div class="markerToolTipInfoDiv1">
+					<img class="image1" src="skin_straight_black_glossy/css_graphics/image3.jpg" width="246" height="138"/>
+					<p class="paragraph1">This type of tooltip windows can be added with ease, they have a responsive layout and CSS support <a class="link" href="http://www.google.com" target="_blank">external link example</a>.  The hotspots / markers can be of any size or shape and of course custom graphics can be used (.jpg, .png or .gif).</p>
+				</div>
+			</li>	
+			
+			<li data-marker-type="infowindow" data-reg-point="centerbottom" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker2.gif" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker2-rollover.png" data-marker-left="1653" data-marker-top="2311" data-marker-width="27" data-marker-height="34" data-show-after-zoom-factor="0" data-tool-tip-label="Large content window (support for unlimited text)">
+				<div class="infoDiv">
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<img class="leftImage" src="skin_straight_black_glossy/css_graphics/camera1.png" width="198" height="137">
+					<p class="leftImageParagraph"><span class="boldDark">This type of window support unlimited text</span>, if the html content is too large on a mouse enabled device a scrollbar will appear and if the device has touch support the html content can be scrolled with the finger. This window has a responsive layout this means that it will adapt based on the available space (resize the browser window to see this feature in action). <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius.Nunc ac turpis nulla. Vestibulum placerat metus urna.</p>
+					<div class="separator"></div>
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<img class="rightImage" src="skin_straight_black_glossy/css_graphics/camera2.png" width="198" height="137"/>
+					<p class="rightImageParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, <a class="link" href="http://www.google.com" target="_blank">external link</a> rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+					<div class="columnsSeparator"></div>
+					<div class="columns">
+						<p class="columnsFirstParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+						<p><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+						<p class="columnsLastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>	
+					</div>
+					<div class="separator"></div>
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<iframe  class="youtubeVideo" src="http://www.youtube.com/embed/tC6uAfGun54?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+					<p class="lastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra.</p>
+				</div>
+			</li>
+			
+			<li data-marker-type="infowindow" data-reg-point="centerbottom" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker2.png" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker2-rollover.png" data-marker-left="1446" data-marker-top="3365" data-marker-width="27" data-marker-height="34" data-show-after-zoom-factor="0" data-tool-tip-label="Large content window (support for unlimited text)">
+				<div class="infoDiv">
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<img class="leftImage" src="skin_straight_black_glossy/css_graphics/camera1.png" width="198" height="137">
+					<p class="leftImageParagraph"><span class="boldDark">This type of window support unlimited text</span>, if the html content is too large on a mouse enabled device a scrollbar will appear and if the device has touch support the html content can be scrolled with the finger. This window has a responsive layout this means that it will adapt based on the available space (resize the browser window to see this feature in action). <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius.Nunc ac turpis nulla. Vestibulum placerat metus urna.</p>
+					<div class="separator"></div>
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<img class="rightImage" src="skin_straight_black_glossy/css_graphics/camera2.png" width="198" height="137"/>
+					<p class="rightImageParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, <a class="link" href="http://www.google.com" target="_blank">external link</a> rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+					<div class="columnsSeparator"></div>
+					<div class="columns">
+						<p class="columnsFirstParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+						<p><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+						<p class="columnsLastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>	
+					</div>
+					<div class="separator"></div>
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<iframe  class="youtubeVideo" src="http://www.youtube.com/embed/tC6uAfGun54?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+					<p class="lastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra.</p>
+				</div>
+			</li>
+			
+			<li data-marker-type="infowindow" data-reg-point="center" data-marker-normal-state-path="skin_straight_black_glossy/skin/marker4.gif" data-marker-selected-state-path="skin_straight_black_glossy/skin/marker4-rollover.png" data-marker-left="1506" data-marker-top="1889" data-marker-width="27" data-marker-height="27" data-show-after-zoom-factor=".55" data-tool-tip-label="Large content window (support for unlimited text)">
+				<div class="infoDiv">
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<img class="leftImage" src="skin_straight_black_glossy/css_graphics/camera1.png" width="198" height="137">
+					<p class="leftImageParagraph"><span class="boldDark">This type of window support unlimited text</span>, if the html content is too large on a mouse enabled device a scrollbar will appear and if the device has touch support the html content can be scrolled with the finger. This window has a responsive layout this means that it will adapt based on the available space (resize the browser window to see this feature in action). <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius.Nunc ac turpis nulla. Vestibulum placerat metus urna.</p>
+					<div class="separator"></div>
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<img class="rightImage" src="skin_straight_black_glossy/css_graphics/camera2.png" width="198" height="137"/>
+					<p class="rightImageParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, <a class="link" href="http://www.google.com" target="_blank">external link</a> rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+					<div class="columnsSeparator"></div>
+					<div class="columns">
+						<p class="columnsFirstParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+						<p><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>
+						<p class="columnsLastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula.</p>	
+					</div>
+					<div class="separator"></div>
+					<h1 class="largeLabel">LOREM IPSUM DOLOR SIT AMET</h1>
+					<iframe  class="youtubeVideo" src="http://www.youtube.com/embed/tC6uAfGun54?wmode=opaque" frameborder="0" allowfullscreen></iframe>
+					<p class="lastParagraph"><span class="boldDark">Lorem ipsum dolor sit amet</span>, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit <a class="link" href="http://www.google.com" target="_blank">external link</a> amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra est eu neque feugiat molestie. Sed nec laoreet ligula. Nulla cursus sapien ac massa ultrices id placerat massa varius. Nunc ac turpis nulla. Vestibulum placerat metus urna. Suspendisse leo purus, euismod vitae sollicitudin vitae, viverra nec eros orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean interdum enim eu ligula volutpat nec imperdiet nisi faucibus. Donec est diam, congue sed dapibus non, rhoncus id felis. Nullam aliquam leo vel sem blandit sit amet tincidunt ligula semper. Sed luctus lorem dui, ut lobortis diam. Curabitur est sapien, viverra et aliquet ut, semper nec magna. In molestie, leo a ornare mollis, orci lacus fermentum felis, a scelerisque ante urna tincidunt diam. Ut pharetra.</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+
+
+
+

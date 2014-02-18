@@ -1,0 +1,207 @@
+ /* Main settings */
+*{
+	margin:0px;
+	padding:0px;
+}
+
+.boldDark{
+	color:#333333 !important;
+	font-weight:bold !important;
+}
+
+/* Main info window */
+.infoDiv{
+	margin:0px !important;
+	padding:0px !important;
+	font-family:Arial !important;
+	font-size:12px !important;
+	background-color:#c1c1c1 !important;
+	background-color:rgba(193, 193, 193, .94) !important;
+	padding:14px !important;
+	padding-top:8px !important;
+	padding-bottom:8px !important;
+	line-height:18px !important;
+	border-radius:16px 16px 16px 16px !important;
+	text-align:justify !important;
+	color:#434343 !important;
+}
+
+a.link:link {color:#0095db;}   
+a.link:visited {color:#0095db;}
+a.link:hover {color:#333333;}
+a.link:active {color:#0095db;}
+
+.largeLabel{
+	margin:0px !important;
+	padding:0px !important;
+	font-size:14px !important;
+	color:#2696ff !important;
+	margin-top:5px !important;
+	margin-bottom:5px !important;
+}
+
+.leftImage{
+	margin:0px !important;
+	padding:0px !important;
+	float:left !important;
+	margin-right:10px !important;
+	margin-top:4px !important;
+}
+
+.separator{
+	margin:0px !important;
+	padding:0px !important;
+	clear:both !important;
+	height:1px !important;
+	background-color:#e8e7e7 !important;
+	margin-top:15px !important;
+	margin-bottom:15px !important;
+}
+
+.columns p{
+	float:left !important;
+	width:30%;
+	margin-bottom:15px !important;
+}
+
+div  .columnsFirstParagraph{
+	margin-right:5%;
+}
+
+div .columnsLastParagraph{
+	float:right !important;
+}
+
+.columnsSeparator{
+	margin:0px !important;
+	padding:0px !important;
+	clear:both !important;
+	height:1px !important;
+	background-color:#e8e7e7 !important;
+	margin-top:15px !important;
+	margin-bottom:15px !important;
+}
+
+.rightImage{
+	margin:0px !important;
+	padding:0px !important;
+	float:right !important;
+	margin-left:10px !important;
+	margin-top:4px !important;
+}
+
+.youtubeVideo{
+	margin:0px !important;
+	padding:0px !important;
+	float:left !important;
+	width:60%;
+	height:306px !important;
+	margin-right:10px !important;
+	margin-top:5px !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	border-color:#e8e7e7 !important;
+}
+
+.lastParagraph{
+	margin:0px !important;
+	padding:0px !important;
+	margin-bottom:5px !important;
+}
+
+/* Marker tool tip windows */
+.chair{
+	margin:0px !important;
+	padding:0px !important;
+	width:220px !important;
+	height:195px !important;
+	font-family:Arial !important;
+	font-size:12px !important;
+	text-align:justify !important;
+	background-color:#c1c1c1 !important;
+	padding:8px !important;
+	line-height:18px !important;
+	border-radius:16px 16px 16px 16px !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	border-color:#e8e7e7 !important;
+	color:#434343 !important;
+	
+}
+
+.chairImage{
+	margin:0px !important;
+	padding:0px !important;
+	margin-bottom:-5px !important;
+	float:left;
+}
+
+.chairParagraph{
+	margin:0px !important;
+	padding:0px !important;
+	float:right;
+	width:130px !important;
+	margin-right:2px !important;
+}
+
+.stoneShape{
+	margin:0px !important;
+	padding:0px !important;
+	font-family:Arial !important;
+	font-size:12px !important;
+	text-align:justify !important;
+	background-color:#c1c1c1 !important;
+	padding:8px !important;
+	line-height:18px !important;
+	border-radius:16px 16px 16px 16px !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	border-color:#e8e7e7 !important;
+	color:#434343 !important;
+	width:250px;
+}
+
+.stoneShapeParagraph{
+	margin:0px !important;
+	padding:0px !important;
+	margin:4px !important;
+	margin-top:2px !important;
+	margin-bottom:-2px !important;
+}
+
+
+.youtubeVideo2{
+	margin:0px !important;
+	padding:0px !important;
+	width:100%;
+	height:180px !important;
+	margin-left:-1px !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	border-color:#e8e7e7 !important;
+}
+
+/* Media Queries */
+@media screen and (max-width: 480px) {
+
+	.youtubeVideo{
+		margin:0px !important;
+		padding:0px !important;
+		width:100%;
+		clear:both !important;
+	}
+	
+	.lastParagraph{
+		margin:0px !important;
+		padding:0px !important;
+		clear:both !important;
+		margin-bottom:10px !important;
+		padding-top:10px !important;
+	}
+	
+	.columns, .columnsSeparator{
+		display:none !important;
+	}
+
+	
+}

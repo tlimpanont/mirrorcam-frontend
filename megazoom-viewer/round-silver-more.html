@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Megazoom Image Viewer</title>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+		
+		<!-- Import required css and js files -->
+		<link rel="stylesheet" type="text/css"  href="read-more-js-and-css/page.css"/>
+	
+		<script type="text/javascript" src="java/FWDMegazoom.js"></script>
+		<script type="text/javascript" src="read-more-js-and-css/FWDReadMorePage.js"></script>
+	
+		
+		<!-- Setup the Megazoom (all settings are explained in detail in the documentation files) -->
+		<script type="text/javascript">
+		
+			FWDUtils.onReady(function(){
+				init();
+
+				top.window.moveTo(0,0); 
+				if (document.all)
+				{ 
+				    top.window.resizeTo(screen.availWidth,screen.availHeight); 
+				} 
+				else if (document.layers || document.getElementById) 
+				{ 
+				    if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth)
+				    {
+				        window.resizeTo(top.screen.availWidth, top.screen.availHeight);
+				    } 
+				}
+			})
+			
+		</script>
+	</head>
+
+	<body>
+		
+		<!-- header -->
+		<div id="mainHeader">
+			<img id="html5" src="read-more-graphics/html5.png"></img>
+			<img id="logoImage" src="read-more-graphics/logo.jpg"></img>
+			<img id="byFWD" src="read-more-graphics/fwd.png"></img>
+		</div>
+	
+		<!-- What is  -->	
+		<div id="whatIsBar">
+			<img id="whatIsBarImg" src="read-more-graphics/whatIsBar.jpg"></img>
+		</div>
+	
+		<div id="whatIsMain">
+			<table>
+				<tr>
+					<td id="whatIsLeftColumn" class="leftColumn"><img src="read-more-graphics/whatIsImage.png" width="103" height="104" /></td>
+					<td id="whatIsRightColumn" class="rightColumn">
+						<p class="firstP">The <span class="dark">Megazoom</span> plugin is a powerful, versatile, easy to use and customize image navigator for displaying large images prepared for showcasing products (high resolution product images, e.g. clothes, cars, technical schemes etc), displaying maps, and any other images, with its zooming, panning, dragging, navigation controls, scrollbar, zoom buttons,and highly customizable markers.It has a <span class="dark">responsive layout</span> making it perfect for any type of page layout. </p>
+						<p>The <span class="dark">Megazoom</span> plugin is <span class="dark">mobile optimized</span> running great on <span class="dark">iOS (iPad, iPhone)</span>, <span class="dark">Android</span> and <span class="dark">Windows8</span> mobile devices and of course it works on every modern browser and older browsers like <span class="dark">IE7</span> and <span class="dark">IE8</span>. We have tested it on IPAD3 and on a SAMSUNG GALAXY S3 and it runs great on both devices, follow the links to view this demos. <a href="https://www.youtube.com/watch?v=WphujNrM5bo" target="_blank">Video demonstration on Android</a> or <a href="https://www.youtube.com/watch?v=tC6uAfGun54" target="_blank">Video demonstration demo on IOS</a>.</p>
+						<p>The <span class="dark">Megazoom</span> plugin can be used in any type of HTML page including Wordpress, <a href="http://www.webdesign-flash.ro/wp/user-interface/megazoom-image-viewer/" target="_blank">at this link</a> there is a demo page running in Wordpress (Please note that this is NOT a Wordpress plugin!, the Megazoom must be installed manually with html code and the images uploaded with a ftp client, we have inclulded a tutorial about how to install it in Wordpress.</p>
+						<p class="lastP">We have also included <span class="dark">full documentation</span>, <span class="dark">examples pages</span> and <span class="dark">PSD files</span> along with <span class="dark">five skins</span>.</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- Main features -->	
+		<div id="mainFeaturesBar">
+			<img id="mainFeaturesImg" src="read-more-graphics/mainFeatures.jpg"></img>
+		</div>
+
+		<div id="mainFeaturesMain">
+			<table>
+				<tr>
+					<td id="mainFeaturesLeftColumn" class="leftColumn"><img src="read-more-graphics/gridMainFeatures.png" width="136" height="115" /></td>
+					<td id="mainFeaturesRightColumn" class="rightColumn">
+						<p class="firstP">Tons of options (check them out in our live previews).</p>
+						<p class="firstP"><span class="dark">Easy to use and install</span>.</p>
+						<p class="firstP"><span class="dark">Fully Responsive & Mobile Optimized</span> (Smartphones & Tablets).</p>
+						<p><span class="dark">Fast CSS3 & JavaScript</span> engine with fall back on CSS1 for older browsers like <span class="dark">IE7</span> or <span class="dark">IE8</span> (exceptional performance!).</p>
+						<p class="firstP"><span class="dark">Responsive layout</span></p>
+						<p>Three dispay types: <span class="dark">responsive</span>, <span class="dark">fullscreen</span> and <span class="dark">lightbox</span>.</p>
+						<p>Support for large image resolution, we have made successful tests with images up to 6000px width and/or height.</p>
+						<p>The <span class="dark">zoom factor</span>(maximum zoom level) and <span class="dark">start/initial zoom factor</span> (initial zoom level) can be specified.</p>
+						<p>The animation <span class="dark">zoom speed</span> and animation <span class="dark">pan speed</span>. can be set.</p>
+						<p><span class="dark">Double clik zoom</span> and double clik zoom factor (optional).</p>
+						<p><span class="dark">Mouse wheel</span> support on desktop.</p>
+						<p><span class="dark">Mouse drag</span> on desktop or <span class="dark">touch drag</span> on mobile.</p>
+						<p><span class="dark">Gestures event support</span> on mobile, the image can be zoomed with two fingers!.</p>
+						<p><span class="dark">Keyboard support</span> (optional).</p>
+						<p><span class="dark">Animated preloader</span>, the preloader text can be modified.</p>
+						<p><span class="dark">Navigator window</span> (optional).</p>
+						<p>Complete <span class="dark">control buttons bar with buttons</span>.</p>
+						<p><span class="dark">All buttons are optional</span>, the order of buttons can be set as you wish and they can be easily removed if one or more are not needed. Below there is an image illustrating some possible buttons order scenarios.</p>
+						<img src="read-more-graphics/controls.jpg" width="100%"></img>
+						<p><span class="dark">Pan buttons</span> (optional).</p>
+						<p><span class="dark">Zoom in/out buttons</span> plus <span class="dark">scrollbar</span>(optional)</p>
+						<p><span class="dark">Hide / show markers button</span> (optional)</p>
+						<p><span class="dark">Info window button</span> for showing a detailed custom made window which supports unlimited html content (optional).</p>
+						<p><span class="dark">Hide / show controller button<span>.</p>
+						<p><span class="dark">Fullscreen button</span> (optional)</p>
+						<p><span class="dark">Customizable buttons tooltips</span>, the buttons tooltips text can be modified with ease based on the presented product type (please note that the buttons tooltips are optional).</p>
+						<p> Awesome <span class="dark">markers / hotspots</span> support! Three hotspots types (link, small info window and detailed info window) allowing to display information about the product on specific regions. The markers / hotspots can be set to be displayed only after a specified zoom factor.</p>
+						<p>The <span class="dark">markers / hotspots</span> can be of any size or shape and they can vary, for example if you want to add three link type hotspots each of them can have a different size or graphics, this applies to all markers/hotspots types. The markers also have support for animated gif.</p>
+						<p><span class="dark">Built in tool for finding the correct position of the marker / hotspot on an image</span> Basically this tool allows to move a white box over the image and displays the current position and zoom factor this way is easy to set a marker over the image. Please note that the white box info will update even if the image is zoomed offering fine tune control. Below there is an image to ilustrate this tool.</p>
+						<img src="read-more-graphics/tool.jpg" width="100%"></img>
+						<p><span class="dark">Customizable custom right click menu</span> (optional). Below there is an image to ilustrate this.</p>
+						<img src="read-more-graphics/menu.jpg" width="100%"></img>
+						<p><span class="dark">Five awesome skins along with the .psd files included</span> (check them out in our live previews).</p>
+						<p><span class="dark">Detailed Documentation</span> included!.</p>
+						<p><span class="dark">Examples files for each skin and display type included, this way the html can be copied and pasted into your html page!</span>.</p>
+						<p class="lastP">Many others features, all of them are explained in details in the documentation files.</p>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- Special notes -->
+		<div id="specialNotesBar">
+			<img id="specialNotesBarImg" src="read-more-graphics/notes.jpg"></img>
+		</div>
+		<div id="specialNotesMain">
+			<table>
+				<tr>
+					<td id="specialNotesLeftColumn" class="leftColumn"><img src="read-more-graphics/notes.png" width="103" height="104" /></td>
+					<td id="specialNotesRightColumn" class="rightColumn">
+						<p>The gestures events only work on IOS (Ipad and Iphone) the other operating systems dose not support gestures events.</p>
+						<p>Using the up and down keyboard arrows is also scrolling the browser if the keys are hold, this is something that can't be prevented, the browser does not allow it. This behavior only applies if the display type is responsive or lightbox.</p>
+						<p class="lastLastP">Mobile devices operating systems are rasterizing the image, this means that if an image has 6000px in width the operating system will reduce the width based on it's limits.</p>
+					</td>
+				</tr>
+			</table>
+		
+		</div>
+	
+	</body>
+</html>
+
+
+
+

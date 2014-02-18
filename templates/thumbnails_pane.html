@@ -1,0 +1,98 @@
+<style type="text/css">
+.pane {
+    background: transparent;
+    width: 100%;
+    height: auto; 
+    min-height: auto;
+    position: absolute;
+    bottom: 0;
+    z-index: 5;
+}
+
+.pane .inner {
+    overflow-x: scroll; overflow-y: hidden;
+}
+
+.pane .scroll {
+    padding: 20px 0;
+    white-space: nowrap;
+}
+
+.thumbnail.image_view {
+    margin-right: 20px;
+    display: inline;
+    margin-bottom: 0 !important;
+    padding-bottom:35px;
+}
+.thumbnail_timestamp {
+    position: absolute; bottom: 0px; left: 12px;
+}
+
+.thumbnail_container {
+    position: relative;
+    display: inline-block;
+}
+</style>
+
+<button ng-if="!open" class="btn btn-primary" pane-trigger pane-el=".pane" ng-click="toggle()"><i class="glyphicon glyphicon-picture"></i> Open</a>
+<button href="" ng-if="open" class="btn btn-primary" pane-trigger pane-el=".pane" ng-click="toggle()"><i class="glyphicon glyphicon-chevron-down"></i> Close</button>
+<div class="inner">
+    <div class="scroll">
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+            <div class="thumbnail_container">
+                <a href="" ng-click="viewImageByDate()">
+                    <img src="img/thumb-0.jpg" class="thumbnail image_view"  />
+                     <p class="thumbnail_timestamp">2012-10-09 00:14:01</p>
+                </a>
+            </div>
+    </div>
+</div>
+
+    

@@ -1,0 +1,49 @@
+html, body { overflow: hidden !important;}
+.tab-pane { padding-top: 20px;}
+/*.aside { width: 800px; }*/
+.dropdown-menu { z-index: 9999 !important;}
+.left-inner-addon {
+    position: relative;
+}
+.left-inner-addon input {
+    padding-left: 30px;    
+}
+.left-inner-addon i {
+    position: absolute;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+.datepicker td.day.disabled:hover {
+    background: transparent;
+}
+
+/*
+.datepicker td.old, .datepicker td.new {
+    display: none;
+}
+*/
+.datepicker td.day.disabled {
+    color: #eeeeee !important;
+    cursor: default;
+    text-decoration: line-through;
+}
+
+.popover {
+    width: 100%;
+    max-width: 100%;
+}
+

@@ -1,0 +1,29 @@
+<div class="aside" tabindex="-1" role="dialog" style="width: 50%;">
+  <div class="aside-dialog">
+    <div class="aside-content">
+      <div class="aside-header">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h4 class="aside-title">Timelapse on {{timelapse_moment}}</h4>
+      </div>
+      <div class="aside-body">
+          <div class="thumbnail">
+            <!-- VIDEO PLAYER -->
+            <div id='video_player'></div>
+            <script type='text/javascript'>
+                jwplayer('video_player').setup({
+                    playlist: 'https://jwpsrv.com/feed/dDLwTtV5.rss',
+                    width: '100%',
+                    aspectratio: '16:9'
+                });
+            </script>
+            <!-- END VIDEO PLAYER -->
+          </div>
+      </div>
+<!--
+      <div class="aside-footer">
+        <button type="button" class="btn btn-primary" ng-click="$hide()">Close</button>
+      </div>
+-->
+    </div>
+  </div>
+</div>

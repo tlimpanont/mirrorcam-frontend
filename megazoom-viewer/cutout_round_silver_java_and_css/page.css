@@ -1,0 +1,180 @@
+/* Main settings */
+body{
+	font-family:Arial, sans;
+	margin:0px;
+	padding:0px;
+	font-size:14px;
+	width:100%;
+	height:100%;
+	background-color:#bababa;
+	line-height:22px;
+	color:#676767;
+}
+
+body a:link    {color:#676767;}
+body a:visited {color:#676767;}
+body a:hover   {color:#009aff;}
+body a:active  {color:#676767;} 
+
+ /* Header */
+ #mainHeader{
+	position:relative;
+	overflow:hidden;
+	width:100%;
+	height:134px;
+	background:url('../cutout_round_silver_graphics/headerBarRepeat.jpg');
+	background-repeat:repeat-x;
+ }
+ 
+ #logoImage{
+	position:absolute;
+	height:134px;
+}
+
+#byFWD{
+	position:absolute;
+}
+
+#html5{
+	position:absolute;
+	z-index:1;
+}
+
+/* Menu holder */
+#menuHolder{
+	overflow:hidden;
+	margin-top:8px;
+	position:relative;
+	width:100%;
+}
+
+/* Product holder */
+#mainProductHolder{
+	overflow:hidden;
+	position:relative;
+	width:100%;
+	margin-top:12px;
+	padding-bottom:26px;
+}
+
+#productHolder{
+	position:relative;
+}
+
+#productHolderBackground{
+	position:absolute;
+}
+
+/* Thumbs holder */
+#mainThumbsHolder{
+	overflow:hidden;
+	position:relative;
+	width:100%;
+	margin-top:-18px;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+#thumbsHolder{
+	position:relative;
+	height:200px;
+}
+
+/* Product info section */
+#mainInfoHolder{
+	overflow:hidden;
+	width:100%;
+	margin-bottom:0px;
+	padding-bottom:0px;
+}
+
+#whatIsImage{
+	position:relative;
+	margin-top:10px;
+	width:415px;
+	height:60px;
+}
+
+#whatIsText{
+	margin:auto;
+}
+
+#whatIsText .firstP{
+	margin-top:13px;
+}
+
+#whatIsText .lastP{
+	margin-top:13px;
+	margin-bottom:20px;
+}
+
+#whyBuyImageHolder{
+	overflow:hidden;
+	position:relative;
+	width:100%;
+	height:74px;
+	background:url('../cutout_round_silver_graphics/whyBuyImageRepeat.jpg');
+	background-repeat:repeat-x;
+}
+
+#whyBuyImage{
+	position:absolute;
+	width:940px;
+	height:74px;
+}
+
+#mainWhyBuyText{
+	background-color:#a19f9f;
+	color:#575757;
+}
+
+#whyBuyText{
+	padding-top:22px;
+	padding-bottom:22px;
+	margin:auto;
+}
+
+#whyBuyFirstColumn {
+	float:left;
+}
+
+#whyBuySecondColumn{
+	float:right;
+}
+
+#whyBuyText .middleP{
+	padding-bottom:6px;
+}
+
+.label1{
+	width:150px;
+	margin:auto;
+	text-align:center;
+	margin-bottom:-10px;
+	margin-top:6px;
+}
+
+.label2{
+	position:relative;
+	z-index:50000;
+	width:150px;
+	margin:auto;
+	text-align:center;
+}
+
+.plusImage{
+	position:relative;
+	margin-right:6px;
+	width:7px;
+	height:7px;
+	top:-2px;
+}
+
+/* Color and style */
+.blue{
+	color:#0099ff;
+}
+
+.dark{
+	color:#111111;
+}

@@ -1,0 +1,140 @@
+/* Main settings */
+body{
+	font-family:Arial, sans;
+	margin:0px;
+	padding:0px;
+	font-size:14px;
+	width:100%;
+	height:100%;
+	background-color:#eaeaea;
+	line-height:22px;
+	color:#555555;
+	
+}
+
+table{
+	padding:10px;
+	margin-top:-10px;
+}
+
+body a:link    {color:#009aff;}
+body a:visited {color:#009aff;}
+body a:hover   {color:#000000;}
+body a:active  {color:#009aff;} 
+
+ /* Header */
+ #mainHeader{
+	position:relative;
+	overflow:hidden;
+	width:100%;
+	height:134px;
+	background:url('../read-more-graphics/headerBarRepeat.jpg');
+	background-repeat:repeat-x;
+ }
+ 
+ #logoImage{
+	position:absolute;
+	height:134px;
+}
+
+#byFWD{
+	position:absolute;
+}
+
+#html5{
+	position:absolute;
+	z-index:1;
+}
+
+/* What is... */
+#whatIsBar{
+	overflow:hidden;
+	position:relative;
+	height:74px;
+	margin:auto;
+	margin-top:10px;
+}
+
+#whatIsBarImg{
+	position:absolute;
+	width:940px;
+	height:74px;
+	z-index:1;
+}
+
+#whatIsMain{
+	position:relative;
+	margin:auto;
+	line-height:22px;
+	background-color:#d0d0d0;
+	color:#555555;
+	text-align:justify;
+}
+
+#whatIsLeftColumn{
+	width:200px;
+}
+
+/* Main features... */
+#mainFeaturesBar{
+	overflow:hidden;
+	position:relative;
+	height:74px;
+	margin:auto;
+	margin-top:20px;
+}
+
+#mainFeaturesImg{
+	position:absolute;
+	width:940px;
+	height:74px;
+	z-index:1;
+}
+
+#mainFeaturesMain{
+	position:relative;
+	margin:auto;
+	line-height:22px;
+	background-color:#d0d0d0;
+	color:#555555;
+	text-align:justify;
+}
+
+#mainFeaturesLeftColumn{
+	width:200px;
+}
+
+/* Special notes.. */
+#specialNotesBar{
+	overflow:hidden;
+	position:relative;
+	height:74px;
+	margin:auto;
+	margin-top:20px;
+}
+
+#specialNotesBarImg{
+	position:absolute;
+	width:940px;
+	height:74px;
+	z-index:1;
+}
+
+#specialNotesMain{
+	position:relative;
+	margin:auto;
+	line-height:22px;
+	background-color:#d0d0d0;
+	color:#555555;
+	text-align:justify;
+	margin-bottom:30px;
+}
+
+#specialNotesLeftColumn{
+	width:200px;
+}
+
+/* Various */
+.dark{
+	color:#000000;
+}

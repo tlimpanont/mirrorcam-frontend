@@ -1,0 +1,24 @@
+{
+  "name": "angular-strap-datepicker",
+  "version": "0.0.0",
+  "authors": [
+    "Theuy Limpanont <theuy.limpanont@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "*",
+    "angular-route": "~1.2.12",
+    "angular-strap": "~2.0.0",
+    "moment": "~2.5.1",
+    "underscore": "~1.6.0",
+    "angular-motion": "~0.3.2",
+    "angular-ui": "~0.4.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

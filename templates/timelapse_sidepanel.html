@@ -1,0 +1,99 @@
+<div class="aside" tabindex="-1" role="dialog" style="width: 50%;">
+  <div class="aside-dialog">
+    <div class="aside-content">
+      <div class="aside-header">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h4 class="aside-title">Timelapse panel</h4>
+      </div>
+      <div class="aside-body">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs ">
+                <li class="active"><a href="#total" data-toggle="tab">Total video</a></li>
+                <li><a href="#month" data-toggle="tab">Monthly</a></li>
+                <li><a href="#week" data-toggle="tab">Weekly</a></li>
+                <li><a href="#day" data-toggle="tab">Daily</a></li>
+            </ul>
+            
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="total">
+                    <p>In this section you can see the whole timelapse of the camera installed on Wall neighbour</p>
+                    <!-- VIDEO PLAYER -->
+                    <div id='total_video_player'></div>
+                    <script type='text/javascript'>
+                        jwplayer('total_video_player').setup({
+                            playlist: 'https://jwpsrv.com/feed/dDLwTtV5.rss',
+                            width: '100%',
+                            aspectratio: '16:9'
+                        });
+                    </script>
+                    <!-- END VIDEO PLAYER -->
+                </div>
+                <div class="tab-pane" id="month">
+                    <p>In this section you can view the timelapse within a time span of a month</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByMonth('2012-05-01')" class="btn btn-primary">May, started at 2012-05-01 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByMonth('2012-05-01')" class="btn btn-primary">May, started at 2012-05-01 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByMonth('2012-05-01')" class="btn btn-primary">May, started at 2012-05-01 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByMonth('2012-05-01')" class="btn btn-primary">May, started at 2012-05-01 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="week">
+                    <p>In this section you can view the timelapse within a time span of a week</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByWeek('2012-06-25')" class="btn btn-primary">Week 26, started at 2012-06-25 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByWeek('2012-06-25')" class="btn btn-primary">Week 26, started at 2012-06-25 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByWeek('2012-06-25')" class="btn btn-primary">Week 26, started at 2012-06-25 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge">8 min</span>
+                            <a href="" ng-click="viewTimelapseByWeek('2012-06-25')" class="btn btn-primary">Week 26, started at 2012-06-25 <span class="glyphicon glyphicon-play"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="day">
+                     <div class="row">
+                        <div class="col-xs-6">
+                            <label for="dateForTimelapse">Select a date</label>
+                            <div class="right-inner-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            <input id="dateForTimelapse" type="text" class="form-control" eyecon-bootstrap-datepicker
+                            format="{{ mirrorcam.date_format_from_json | lowercase }}" 
+                            available-dates="availableDates" 
+                            selected-date="selectedDate"
+                            on-change-date="viewTimelapseByDate"
+                            display="hide"  />
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+<!--
+      <div class="aside-footer">
+        <button type="button" class="btn btn-primary" ng-click="$hide()">Close</button>
+      </div>
+-->
+    </div>
+  </div>
+</div>
