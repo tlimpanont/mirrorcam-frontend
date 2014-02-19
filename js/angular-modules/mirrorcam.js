@@ -170,37 +170,6 @@
             }
         }
     })
-    .directive("panZoomViewer", function(mirrorcam) {
-        return {
-            link: function(scope, element, attrs, controller) {
-                
-                mirrorcam.pan_zoom_viewer.settings.contentUrl = "img/1.jpg";
-                mirrorcam.pan_zoom_viewer.settings.mapThumb = "img/thumb-1.jpg";
-                
-                var viewer = jQuery(element).lhpMegaImgViewer(mirrorcam.pan_zoom_viewer.settings);
-                mirrorcam.pan_zoom_viewer.exec = function(method) {
-                    return viewer.lhpMegaImgViewer(method);
-                };
-                mirrorcam.pan_zoom_viewer.reposition = function() {
-                    jQuery(element).css({
-                        position: 'absolute',
-                        width: jQuery(window).width(),
-                        height: jQuery(window).height() - jQuery("#top-menu").outerHeight()
-                    }).lhpMegaImgViewer("adaptsToContainer");   
-                    
-                    jQuery(element).css({
-                        top: jQuery("#top-menu").outerHeight() 
-                    });
-                }
-    
-                jQuery(window).resize(function() {  mirrorcam.pan_zoom_viewer.reposition() ; });  mirrorcam.pan_zoom_viewer.reposition();   
-                
-                angular.extend(viewer, mirrorcam.pan_zoom_viewer );
-
-                jQuery(window).resize();
-            }
-        }
-    })
     .filter("moment", function() {
         return function(input) {
             return moment(input);  
@@ -221,27 +190,6 @@
                 base_url: base_url,
                 api_base_url: api_base_url,
                 date_format_from_json: "YYYY-MM-DD" ,
-                pan_zoom_viewer: {
-                    settings: {
-                        "viewportWidth" : "100%",
-                        "viewportHeight" : "100%",
-                        'fitToViewportShortSide' : true,  
-                        'contentSizeOver100' : false,
-                        'startScale' : 0,
-                        'startX' : 0,
-                        'startY' : 0,
-                        "animTime" : 500,
-                        "draggInertia" : 10,
-                        "zoomLevel" : 2,
-                        "zoomStep" : 0.1,
-                        "contentUrl" : "img/1.jpg",
-                        "mapEnable" : true,
-                        "mapThumb" : "img/thumb-1.jpg",
-                        "mapPos" : "BR",
-                        "popupShowAction" : "click",
-                        "testMode" : false
-                    }
-                },
                 thumbnails_swipe_pane: {
                     settings: {
                         mode:'horizontal',
