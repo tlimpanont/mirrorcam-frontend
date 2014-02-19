@@ -47,3 +47,47 @@
     max-width: 100%;
 }
 
+/* SWIPER PANE FOR THUMBNAILS */
+.thumb_pane_nav.prev {
+    left: 0;
+}
+.thumb_pane_nav.next {
+    right: 0;
+}
+.thumb_pane_nav {
+    z-index: 1000; 
+    position: absolute; 
+    top: 40%; 
+    font-size: 30px; 
+    /*color: #000;*/
+}
+
+#pane_container {
+    background: white; 
+    height: 200px; 
+    position: relative; 
+    padding: 20px 0;
+   
+}
+
+.close_pane {
+    display: none;  
+    position: absolute; 
+    top: -48px; 
+    right: 0; 
+    /*color: #000;*/
+    font-size: 30px;
+}
+
+.close_pane:hover  {
+    /*color: #000;*/
+}
+
+.open_pane {
+    font-size: 30px;
+    /*color: #000;*/
+}
+.open_pane:hover {
+    /*color: #000;*/
+}
+/* END SWIPER PANE FOR THUMBNAILS */

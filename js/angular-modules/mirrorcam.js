@@ -52,13 +52,13 @@
             scope : {
                 
             },
-            template: '<div id="{{parentId}}" style="width:100%; height:600px; margin:auto;"><div id="{{playListAndSkinId}}" style="display:none;"> </div></div> ',
+            template: '<div id="{{parentId}}" style="width:{{width}}; height:{{height}}; margin:auto;"><div id="{{playListAndSkinId}}" style="display:none;"> </div></div> ',
             controller: function($scope) {
                 $scope.randomId = function(prefix) {
                     return prefix + Math.floor(Math.random() * 100000);
                 }
-                $scope.width = 800;
-                $scope.height = jQuery(window).height() - 300 +  "px";
+                $scope.width = "100%";
+                $scope.height = jQuery(window).height() - 100 +  "px";
             },  
             link: function(scope, element, attrs, controller) {
                 scope.parentId = scope.randomId("parentId_");
@@ -71,30 +71,28 @@
                 setTimeout(function() {
                     mirrorcam.megazoom_viewer = new FWDMegazoom(settings);
                     mirrorcam.megazoom_viewer.settings = settings;
-                }, 0)
-
-               setTimeout(function() {
-                   // angular.element("#"+scope.parentId).css({"margin-top" : jQuery("#top-menu").outerHeight()});
-               }, 100)
+                }, 0);
             }
         }
     })
     .directive("thumbnailsSwipePane", function(mirrorcam) {
         return {
-            template: '<div id="{{container_id}}" class="swiper-container"><a href="" ng-click="prevSlide()" style="z-index: 1000; position: absolute; top: 0; left: 0;">Prev</a><a href="" style="z-index: 1000; position: absolute; top: 0; right: 0;" ng-click="nextSlide()">Next</a><div class="swiper-wrapper"> <div class="swiper-slide" ng-repeat="thumb in thumbs"> <a href="" ng-click="viewMegazoomImage(date_string)"> <img src="http://placehold.it/150x150" class="img-thumbnail"> </a> </div> </div> </div>',
+            templateUrl: "templates/thumbnails_pane.html",
             link: function(scope, element, attrs, controller) {
                 scope.container_id = scope.containerId();
+                scope.thumb_margin = 20;
+                scope.thumb_width = 150;
+                scope.thumb_height = 150;
+                scope.slidesPerView = 4;
+
                 setTimeout(function() {
-                     var pane = new Swiper("#"+scope.container_id, {
-                        //Your options here:
-                        mode:'horizontal',
-                        loop: false,
-                        slidesPerView: 4,
-                        simulateTouch: true,
-                        mousewheelControl: true,
-                        keyboardControl: true
+                    var settings = angular.extend( mirrorcam.thumbnails_swipe_pane.settings, {
+                        slidesPerView: scope.slidesPerView
                     });
-                    mirrorcam.thumbnails_swipe_pane = pane;
+                    var swiperPane = new Swiper("#"+scope.container_id, settings);
+                    mirrorcam.thumbnails_swipe_pane = swiperPane;
+                    mirrorcam.thumbnails_swipe_pane.settings = settings;
+                    scope.swiperPane = swiperPane;
                 }, 0);
             },
             controller: function($scope, mirrorcam) {
@@ -124,8 +122,18 @@
                     mirrorcam.thumbnails_swipe_pane.swipeNext();
                 }
 
-                 $scope.prevSlide = function() {
+                $scope.prevSlide = function() {
                     mirrorcam.thumbnails_swipe_pane.swipePrev();
+                }
+
+                $scope.openPane = function() {   
+                    jQuery("#pane_container").animate({"margin-top": -210}, function() {
+                        jQuery(this).find(".close_pane").fadeIn();
+                    });
+                }
+                $scope.closePane = function() {
+                    jQuery(".close_pane").hide();
+                    jQuery("#pane_container").animate({"margin-top": 0});
                 }
             }
         }
@@ -200,7 +208,12 @@
                         },
                         thumbnails_swipe_pane: {
                             settings: {
-
+                                mode:'horizontal',
+                                loop: false,
+                                slidesPerView: 4,
+                                simulateTouch: true,
+                                mousewheelControl: true,
+                                keyboardControl: true
                             }
                         },
                         megazoom_viewer: {

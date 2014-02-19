@@ -1,11 +1,29 @@
-<div class="swiper-container">
-  <div class="swiper-wrapper">
-        <!--Swiper Slide-->
-        <div class="swiper-slide" ng-repeat="thumb in [1,2,3,4,5,6]"> 
-           <a href="">
-                <img src="http://placehold.it/150x150"  class="img-thumbnail">
-           </a>
-        </div>
-      <!--Etc..-->
-  </div>
-</div>  
+<div class="row">
+	<p class="text-center"><a href="" class="open_pane" ng-click="openPane()"><span class="glyphicon glyphicon-chevron-up"></span></a></p>	
+</div>
+<div class="row">
+
+	<div class="col-md-12" id="pane_container">
+		
+		<button type="button"  class="close_pane btn btn-primary" ng-click="closePane()"> <span class="glyphicon glyphicon-remove-circle"></span></button>
+	
+		<center>
+    		<div id="{{container_id}}" class="swiper-container" style="height: {{thumb_height+thumb_margin}}px;">
+				<a ng-if="swiperPane.activeIndex > 0" class="thumb_pane_nav prev" href="" ng-click="prevSlide()">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a ng-if="( swiperPane.slides.length - swiperPane.activeIndex ) != slidesPerView " class="thumb_pane_nav next" href="" ng-click="nextSlide()">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+				<div class="swiper-wrapper" style="height: {{thumb_height+thumb_margin}}px;">
+					<div class="swiper-slide" ng-repeat="thumb in thumbs">
+						<a href="" ng-click="viewMegazoomImage(date_string)"><img src="http://placehold.it/{{thumb_width}}x{{thumb_height}}" class="img-thumbnail"></a>
+					</div>
+				</div>
+			</div>
+		</center>
+
+	</div>
+</div>
+
+
