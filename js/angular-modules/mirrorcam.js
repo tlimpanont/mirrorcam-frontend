@@ -127,7 +127,7 @@
                 }
 
                 $scope.openPane = function() {   
-                    jQuery("#pane_container").animate({"margin-top": -210}, function() {
+                    jQuery("#pane_container").animate({"margin-top": -250}, function() {
                         jQuery(this).find(".close_pane").fadeIn();
                     });
                 }
@@ -235,14 +235,14 @@
                                 startZoomFactor:"default",
                                 panSpeed:8,
                                 zoomSpeed:.1,
-                                backgroundColor:"#000000",
+                                backgroundColor:"#FFF",
                                 preloaderFontColor:"#a2a3a3",
-                                preloaderBackgroundColor:"#000000",
+                                preloaderBackgroundColor:"#FFF",
                                 //----lightbox-----//
                                 lightBoxWidth:800,
                                 lightBoxHeight:550,
                                 lightBoxBackgroundOpacity:.8,
-                                lightBoxBackgroundColor:"#000000",
+                                lightBoxBackgroundColor:"#FFF",
                                 //----controller----//
                                 buttons:"moveLeft, moveRight, moveDown, moveUp, scrollbar, hideOrShowMarkers, hideOrShowController, info, fullscreen",
                                 buttonsToolTips:"Move left, Move right, Move down, Move up, Zoom level: , Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
