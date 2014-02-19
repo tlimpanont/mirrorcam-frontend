@@ -1,14 +1,12 @@
 <div class="row">
-	<p class="text-center"><a href="" class="open_pane" ng-click="openPane()"><span class="glyphicon glyphicon-chevron-up"></span></a></p>	
+	<p class="text-center"><a href="" class="open_pane" ng-click="openPane()"><span class="glyphicon glyphicon-th-list"></span></a></p>	
 </div>
 <div class="row">
 
 	<div class="col-md-12" id="pane_container">
-		
-		<button type="button"  class="close_pane btn btn-primary" ng-click="closePane()"> <span class="glyphicon glyphicon-remove-circle"></span></button>
-	
 		<center>
-    		<div id="{{container_id}}" class="swiper-container" style="height: {{thumb_height+thumb_margin}}px;">
+			<a class="close_pane" ng-click="closePane()"> <span class="glyphicon glyphicon-remove-circle"></span></a>
+			<div id="{{container_id}}" class="swiper-container" style="height: {{thumb_height+thumb_margin}}px;">
 				<a ng-if="swiperPane.activeIndex > 0" class="thumb_pane_nav prev" href="" ng-click="prevSlide()">
 					<span class="glyphicon glyphicon-chevron-left"></span>
 				</a>
@@ -22,7 +20,6 @@
 				</div>
 			</div>
 		</center>
-
 	</div>
 </div>
 

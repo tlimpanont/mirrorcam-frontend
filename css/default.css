@@ -72,11 +72,11 @@
 
 .close_pane {
     display: none;  
-    position: absolute; 
-    top: -48px; 
-    right: 0; 
+    position: absolute;
     /*color: #000;*/
     font-size: 30px;
+    top: -30px;
+    right: 0;
 }
 
 .close_pane:hover  {
