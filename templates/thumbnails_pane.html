@@ -1,6 +1,16 @@
+<style type="text/css">
+	.swiper-slide img.active {
+		background: #000;
+	}
+	.swiper-slide img:hover {
+		background: #ccc;
+	}
+</style>
+
 <div class="row">
 	<p class="text-center"><a href="" class="open_pane" ng-click="openPane()"><span class="glyphicon glyphicon-chevron-up"></span></a></p>	
 </div>
+
 <div class="row">
 	<div class="col-md-12" id="pane_container">
 		
@@ -24,9 +34,11 @@
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 						<div class="swiper-wrapper" style="height: {{thumb_height+thumb_margin}}px;">
-							<div class="swiper-slide" ng-repeat="thumb in thumbs">
-								<a href="" ng-click="viewMegazoomImage(date_string)"><img src="http://placehold.it/{{thumb_width}}x{{thumb_height}}" class="img-thumbnail"></a>
+							<div class="swiper-slide" ng-repeat="thumb in mirrorcam.selectedDate.photos">
+								<a href="" ng-click="mirrorcam.megazoom_viewer.viewMegazoomImage(thumb.DateTimeDigitized)"><img src="{{ mirrorcam.base_url + mirrorcam.camera.thumb_path + thumb.FileName }}" class="img-thumbnail" ng-class="{active : thumb.isActive}"></a>
+								<p class="text-center">{{thumb.DateTimeDigitized}}</p>
 							</div>
+							<div class="pagination"></div>
 						</div>
 					</div>
 				</center>

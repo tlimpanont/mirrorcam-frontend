@@ -20,9 +20,9 @@
                     <i class="glyphicon glyphicon-calendar"></i>
                     <input type="text" class="form-control" eyecon-bootstrap-datepicker
                     format="{{ mirrorcam.date_format_from_json | lowercase }}" 
-                    available-dates="availableDates"  
-                    selected-date="selectedDate" 
-                    on-change-date="viewImageByDate"
+                    available-dates="mirrorcam.availableDates"  
+                    selected-date="mirrorcam.selectedDate.date" 
+                    on-change-date="loadThumbnailsAndviewMegazoomImage"
                     display="hide"  />
                 </div>
             </form>

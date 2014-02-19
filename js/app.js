@@ -1,50 +1,73 @@
 FWDUtils.onReady(function(){
 
     angular.module('myApp', ['ui.router', 'ngSanitize', 'mgcrea.ngStrap', 'mirrorcam'])
+    .config(function(mirrorcamProvider) {
+       //console.log(mirrorcamProvider);
+    })
     .config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
            // $locationProvider.html5Mode(true);
             $urlRouterProvider.otherwise("/");
             $stateProvider.
             state('index', {
-                url: "/",
+                url: "/:camera_key",
                 templateUrl: "templates/index.html",
                 controller: 'mainCtrl',
                 resolve: {
-                    resolve: function($q, $http, mirrorcam, dataProvider) {
+                    resolve: function($q, $state, $http, mirrorcam, dataProvider, $stateParams) {
+                        if($stateParams.camera_key)
+                            mirrorcam.camera_key = $stateParams.camera_key;
+                        
                         var defer = $q.defer();
-                        $q.all([
-                                dataProvider.getDatesWithPhotos(),
-                            ]).then(function(results) {
-                                
-                                defer.resolve(results);
-                        });
+
+                         dataProvider.getDatesWithPhotos(mirrorcam.camera_key).then(function(availableDates){
+                            var selectedDate = _.max(availableDates);
+                            var selectedDateString = moment(selectedDate).format(mirrorcam.date_format_from_json);
+                            dataProvider.getAllThumbnailsByCameraAndDate(mirrorcam.camera_key, selectedDateString).then(function(res) {
+                                    defer.resolve({
+                                        availableDates: availableDates,
+                                        selectedDate: {
+                                            date: selectedDate,
+                                            date_string: selectedDateString,
+                                            photos: res.data.photos,
+                                            selected_photo: res.data.photos[0]
+                                        },
+                                        camera: res.data.camera[0]
+                                    });
+                                });
+                         });
+
                         return defer.promise;
                     }
                 }
             })
         }
     ])
-    .controller("mainCtrl", function($scope, $http, $sce, resolve, $aside, mirrorcam) {
-        //console.log(resolve);
-
-        $scope.mirrorcam = mirrorcam;
-        $scope.availableDates = resolve[0];
-        $scope.selectedDate = _.max(resolve[0]);
+    .controller("mainCtrl", function($scope, $http, $sce, $aside, resolve, mirrorcam, dataProvider) {
+        $scope.mirrorcam = angular.extend(mirrorcam, resolve);
+    
         var videoSidePanel = null;
 
-        $scope.openThumbnailsPanel = function(e) {
-            //snapRemote.open("left");
+        $scope.loadThumbnailsAndviewMegazoomImage = function(datepicker_event) {
+            var selectedDate = datepicker_event.date;
+            var selectedDateString = moment(selectedDate).format(mirrorcam.date_format_from_json);
+            dataProvider.getAllThumbnailsByCameraAndDate(mirrorcam.camera_key, selectedDateString)
+            .then(function(res) {
+               mirrorcam.selectedDate = angular.extend(mirrorcam.selectedDate, {
+                    date: selectedDate,
+                    date_string: selectedDateString,
+                    photos: res.data.photos
+                });         
+
+                setTimeout(function() {
+                    mirrorcam.thumbnails_swipe_pane.reInit(); 
+                    mirrorcam.thumbnails_swipe_pane.swipeTo(0);
+                } , 0);         
+                
+                mirrorcam.megazoom_viewer.viewMegazoomImage(mirrorcam.selectedDate.photos[0].DateTimeDigitized); 
+            });
         }
-        
-        $scope.viewImageByDate = function(e) {
-            jQuery(e.currentTarget).datepicker("hide");
-            mirrorcam.pan_zoom_viewer.settings.contentUrl = "http://www.mirrorcam.nl/projects/1330805157__a1f10/camera_b08a5/upload/MM_00011729.JPG";
-            mirrorcam.pan_zoom_viewer.settings.mapThumb = "http://www.mirrorcam.nl/projects/1330805157__a1f10/camera_b08a5/thumbs/MM_00011729.JPG";
-            mirrorcam.pan_zoom_viewer.exec("destroy");
-            mirrorcam.pan_zoom_viewer.exec(mirrorcam.pan_zoom_viewer.settings);
-        }
-        
+
         $scope.viewTimelapseByDate = function(e) {
             jQuery(e.currentTarget).datepicker("hide");
             $scope.timelapse_moment = moment(e.date).format("DD MMMM YYYY");
