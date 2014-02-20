@@ -1,4 +1,5 @@
-(function(jQuery, _) {
+FWDUtils.onReady(function() {
+          
    angular.module('mirrorcam', [])
     // plugin src: http://www.eyecon.ro/bootstrap-datepicker/
     .directive("eyeconBootstrapDatepicker", function() {
@@ -21,45 +22,120 @@
                     _datepicker.datepicker('setValue', scope.selectedDate);
                 _datepicker.datepicker(scope.display);
                 _datepicker.datepicker("place");
-                scope.datepicker = _datepicker;
             },
             controller: function($scope) {
                 $scope.onRender = function(date) {
                     return _.contains(_.map($scope.availableDates, function(_date) {
                         return _date = _date.valueOf();
                     }), date.valueOf()) ? "" : "disabled";
-                }  
+                }
             }
         }
     })
-    .service("dataProvider", function($http, $q, mirrorcam) {
+    .service("server", function($http, $q, mirrorcam) {
         return {
-            getDatesWithPhotos: function(camera_key) {
-                var dates_with_photos = $q.defer();
-
-                var url = (!camera_key)  ? "json/dates_with_photos.json" 
-                                        : mirrorcam.api_base_url+"getDate/?camera_key="+camera_key;
-                
-                $http.get(url).then(function(res) {
-                    var availableDates = _.map(res.data, function(item,index) {
-                        return moment(item.DateTime, mirrorcam.date_format_from_json)._d
+            loadAvailableDates: function(camera_key) {
+                var defer = $q.defer();
+                $http.get(mirrorcam.api_base_url+"getDate/?camera_key="+camera_key)
+                .success(function(array_date_string_objects) {
+                    var available_dates = _.map(array_date_string_objects, function(item,index) {
+                            return moment(item.DateTime, mirrorcam.date_format_from_json)._d
                     })
-                    dates_with_photos.resolve(availableDates);
+                    defer.resolve(available_dates);
                 });
-
-                return dates_with_photos.promise;
+                return defer.promise;
             },
-            getAllThumbnailsByCameraAndDate: function(camera_key, date) {
-                return $http.get(mirrorcam.api_base_url + "getAllThumbnailsByCameraAndDate?camera_key="+camera_key+"&date="+date)
+            loadPhotos: function(camera_key, date_string) {
+                return $http.get(mirrorcam.api_base_url + "getAllThumbnailsByCameraAndDate?camera_key="+camera_key+"&date="+date_string);
             }
         }
     })
-    .directive("megazoomViewer", function(mirrorcam) {
+    .provider("megazoomViewer", function() {
+
+        this.settings =  {
+            //----main----//
+            parentId:"myDiv",
+            playListAndSkinId:"megazoomPlayList",
+            displayType:"reponsive",
+            skinPath:"css/megazoom-viewer/skin_embossed_grey/skin/",
+            imagePath:"css/megazoom-viewer/skin_embossed_grey/imageToZoom.jpg",
+            preloaderText:"Loading image...",
+            useEntireScreen:"yes",
+            addKeyboardSupport:"yes",
+            addDoubleClickSupport:"yes",
+            imageWidth:2490,
+            imageHeight:3300,
+            zoomFactor:1.4,
+            doubleClickZoomFactor:1,
+            startZoomFactor:"default",
+            panSpeed:8,
+            zoomSpeed:.1,
+            backgroundColor:"#FFF",
+            preloaderFontColor:"#a2a3a3",
+            preloaderBackgroundColor:"#FFF",
+            //----lightbox-----//
+            lightBoxWidth:800,
+            lightBoxHeight:550,
+            lightBoxBackgroundOpacity:.8,
+            lightBoxBackgroundColor:"#FFF",
+            //----controller----//
+            buttons:"moveLeft, moveRight, moveDown, moveUp, scrollbar, hideOrShowMarkers, hideOrShowController, info, fullscreen",
+            buttonsToolTips:"Move left, Move right, Move down, Move up, Zoom level: , Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
+            controllerPosition:"bottom",
+            inversePanDirection:"yes",
+            startSpaceBetweenButtons:10,
+            spaceBetweenButtons:10,
+            startSpaceForScrollBarButtons:20,
+            startSpaceForScrollBar:6,
+            hideControllerDelay:3,
+            controllerMaxWidth:940,
+            controllerBackgroundOpacity:1,
+            controllerOffsetY:0,
+            scrollBarOffsetX:0,
+            scrollBarHandlerToolTipOffsetY:-4,
+            zoomInAndOutToolTipOffsetY:-1,
+            buttonsToolTipOffsetY:4,
+            hideControllerOffsetY:4,
+            buttonToolTipFontColor:"#a2a3a3",
+            //----navigator----//
+            showNavigator:"yes",
+            showNavigatorOnMobile:"yes",
+            navigatorImagePath:"css/megazoom-viewer/skin_embossed_grey/navigatorImage.jpg",
+            navigatorPosition:"topright",
+            navigatorOffsetX:6,
+            navigatorOffsetY:6,
+            navigatorHandlerColor:"#FF0000",
+            navigatorBorderColor:"#AAAAAA",
+            //----info window----//
+            infoWindowBackgroundOpacity:.6,
+            infoWindowBackgroundColor:"#4c4c4c",
+            infoWindowScrollBarColor:"#999999",
+            //----markers-----//
+            showMarkersInfo:"no",
+            markerToolTipOffsetY:0,
+            //----context menu----//
+            showScriptDeveloper:"no",
+            contextMenuLabels:"Move left, Move right, Move down, Move up, Zoom in/Zoom out, Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
+            contextMenuBackgroundColor:"#4c4c4c",
+            contextMenuBorderColor:"#727272",
+            contextMenuSpacerColor:"#727272",
+            contextMenuItemNormalColor:"#a2a3a3",
+            contextMenuItemSelectedColor:"#FFFFFF",
+            contextMenuItemDisabledColor:"#595b5b"
+        }
+        this.instance = {};
+
+        this.$get = function() {
+            return {
+                settings: this.settings,
+                instance: this.instance
+            }
+        }
+
+    })
+    .directive("megazoomViewer", function(mirrorcam, megazoomViewer) {
          return {
-            scope : {
-                
-            },
-            template: '<div id="{{parentId}}" style="width:{{width}}; height:{{height}}; margin:auto;"><div id="{{playListAndSkinId}}" style="display:none;"> </div></div> ',
+            reaplace: true,
             controller: function($scope) {
                 $scope.randomId = function(prefix) {
                     return prefix + Math.floor(Math.random() * 100000);
@@ -71,55 +147,10 @@
                 scope.parentId = scope.randomId("parentId_");
                 scope.playListAndSkinId = scope.randomId("playListAndSkinId_");
 
-                var settings = angular.extend(mirrorcam.megazoom_viewer.settings, {
+                angular.extend(megazoomViewer.settings, {
                     parentId: scope.parentId,
                     playListAndSkinId: scope.playListAndSkinId,
                 });
-                setTimeout(function() {
-                    mirrorcam.megazoom_viewer = new FWDMegazoom(settings);
-                    mirrorcam.megazoom_viewer.settings = settings;
-
-                    angular.extend(mirrorcam.megazoom_viewer, {
-
-                    viewMegazoomImage : function(DateTimeDigitized) {
-                            _.each(mirrorcam.selectedDate.photos, function(photo) {
-                                photo.isActive = false;
-                            });
-
-                            var date_string = DateTimeDigitized.split(" ")[0];
-                            var photo = _.findWhere(mirrorcam.selectedDate.photos, {DateTimeDigitized: DateTimeDigitized});
-                            photo.isActive = true;
-
-                            var photo_source =  mirrorcam.base_url
-                                        +mirrorcam.camera.folder_path
-                                        +"upload/"
-                                        +photo.FileName;
-                            var thumbnail_source = mirrorcam.base_url
-                                        +mirrorcam.camera.thumb_path
-                                        +photo.FileName;
-
-
-                            if(mirrorcam.megazoom_viewer)
-                            {
-                               jQuery( "#" + mirrorcam.megazoom_viewer.settings.parentId)
-                               .prepend('<div id="'+mirrorcam.megazoom_viewer.settings.playListAndSkinId+'" style="display:none;"> </div>'); 
-                                mirrorcam.megazoom_viewer.destroy();
-                            }
-                            var settings = angular.extend(mirrorcam.megazoom_viewer.settings, {
-                                imagePath: photo_source,
-                                imageWidth: photo.Width,
-                                imageHeight: photo.Height,
-                                navigatorImagePath : thumbnail_source
-                            });
-
-                            angular.extend(mirrorcam.megazoom_viewer, new FWDMegazoom(settings));
-                            angular.extend(mirrorcam.megazoom_viewer.settings, settings);
-                        }
-                    });
-
-                    mirrorcam.megazoom_viewer.viewMegazoomImage(mirrorcam.selectedDate.selected_photo.DateTimeDigitized);
-
-                }, 0);
             }
         }
     })
@@ -186,6 +217,26 @@
 
         this.$get = function($http) {
             return {
+                extend: function($scope, availableDates, dateString, portalData) {
+                    $scope.availableDates = availableDates;
+                    $scope.selectedDate = moment(dateString, this.date_format_from_json);
+                    $scope.selectedDateString = dateString;
+                    $scope.portalData = portalData;
+                    $scope.photos = portalData.photos;
+                    $scope.camera = portalData.camera[0];
+
+                    var resolve = {
+                        availableDates: $scope.availableDates,
+                        selectedDate: {
+                            date: $scope.selectedDate,
+                            date_string: $scope.selectedDateString,
+                            photos: $scope.photos,
+                            selected_photo: $scope.photos[0]
+                        },
+                        camera: $scope.camera
+                    };
+                    return angular.extend(this, resolve);
+                },
                 camera_key: "08a680aa585518f150469a1b5a64bb10" ,
                 base_url: base_url,
                 api_base_url: api_base_url,
@@ -278,5 +329,4 @@
             }   // END returning
         } // END $get function   
     });
-
-})(jQuery, _);
+});

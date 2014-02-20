@@ -35,7 +35,7 @@
 						</a>
 						<div class="swiper-wrapper" style="height: {{thumb_height+thumb_margin}}px;">
 							<div class="swiper-slide" ng-repeat="thumb in mirrorcam.selectedDate.photos">
-								<a href="" ng-click="mirrorcam.megazoom_viewer.viewMegazoomImage(thumb.DateTimeDigitized)"><img src="{{ mirrorcam.base_url + mirrorcam.camera.thumb_path + thumb.FileName }}" class="img-thumbnail" ng-class="{active : thumb.isActive}"></a>
+								<a href="" ng-click="mirrorcam.megazoom_viewer.viewMegazoomImage(thumb.DateTimeDigitized)"><img ng-src="{{ mirrorcam.base_url + mirrorcam.camera.thumb_path + thumb.FileName }}" class="img-thumbnail" ng-class="{active : thumb.isActive}"></a>
 								<p class="text-center">{{thumb.DateTimeDigitized}}</p>
 							</div>
 							<div class="pagination"></div>

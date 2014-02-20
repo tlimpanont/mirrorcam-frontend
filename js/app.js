@@ -4,38 +4,46 @@ FWDUtils.onReady(function(){
     .config(function(mirrorcamProvider) {
        //console.log(mirrorcamProvider);
     })
-    .config(['$stateProvider', '$urlRouterProvider',
-        function($stateProvider, $urlRouterProvider) {
-           // $locationProvider.html5Mode(true);
-            $urlRouterProvider.otherwise("/");
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider) {
+           //$locationProvider.html5Mode(true);
+            //$urlRouterProvider.otherwise("/");
             $stateProvider.
             state('index', {
+                url: "/",
+                controller: function($state, mirrorcam) {
+                    $state.go("camera", { camera_key: mirrorcam.camera_key });
+                }
+            })
+            .state('camera', {
                 url: "/:camera_key",
-                templateUrl: "templates/index.html",
-                controller: 'mainCtrl',
+                controller: function(availableDates, $state, $stateParams, mirrorcam) {
+                    mirrorcam.camera_key = $stateParams.camera_key;
+                    $state.go("camera_date_string", {
+                            camera_key: $stateParams.camera_key, 
+                            date_string: moment(_.max(availableDates)).format(mirrorcam.date_format_from_json)
+                    });
+                },
                 resolve: {
-                    resolve: function($q, $state, $http, mirrorcam, dataProvider, $stateParams) {
-                        if($stateParams.camera_key)
-                            mirrorcam.camera_key = $stateParams.camera_key;
-                        
+                    availableDates: function(server, mirrorcam, $stateParams) {
+                        return server.loadAvailableDates($stateParams.camera_key);
+                    }
+                }
+            })
+            .state('camera_date_string', {
+                url: "/:camera_key/:date_string",
+                templateUrl:  "templates/index.html",
+                controller: "mainCtrl",
+                resolve: {
+                    availableDates: function(server, mirrorcam, $stateParams) {
+                        return server.loadAvailableDates($stateParams.camera_key);
+                    },
+                    photosCamera: function($q, server, $stateParams) {
                         var defer = $q.defer();
-
-                         dataProvider.getDatesWithPhotos(mirrorcam.camera_key).then(function(availableDates){
-                            var selectedDate = _.max(availableDates);
-                            var selectedDateString = moment(selectedDate).format(mirrorcam.date_format_from_json);
-                            dataProvider.getAllThumbnailsByCameraAndDate(mirrorcam.camera_key, selectedDateString).then(function(res) {
-                                    defer.resolve({
-                                        availableDates: availableDates,
-                                        selectedDate: {
-                                            date: selectedDate,
-                                            date_string: selectedDateString,
-                                            photos: res.data.photos,
-                                            selected_photo: res.data.photos[0]
-                                        },
-                                        camera: res.data.camera[0]
-                                    });
-                                });
-                         });
+                        
+                        server.loadPhotos($stateParams.camera_key, $stateParams.date_string).success(function(portalData) {
+                            defer.resolve(portalData);
+                        });
 
                         return defer.promise;
                     }
@@ -43,30 +51,15 @@ FWDUtils.onReady(function(){
             })
         }
     ])
-    .controller("mainCtrl", function($scope, $http, $sce, $aside, resolve, mirrorcam, dataProvider) {
-        $scope.mirrorcam = angular.extend(mirrorcam, resolve);
-    
-        var videoSidePanel = null;
+    .controller("mainCtrl", function($scope, $aside, $stateParams, mirrorcam, availableDates, photosCamera, megazoomViewer) {
+        $scope.availableDates = availableDates;
+        $scope.selectedDate = moment($stateParams.date_string, mirrorcam.date_format_from_json);
+        $scope.photos = photosCamera.photos;
+        $scope.camera = photosCamera.camera[0];
 
-        $scope.loadThumbnailsAndviewMegazoomImage = function(datepicker_event) {
-            var selectedDate = datepicker_event.date;
-            var selectedDateString = moment(selectedDate).format(mirrorcam.date_format_from_json);
-            dataProvider.getAllThumbnailsByCameraAndDate(mirrorcam.camera_key, selectedDateString)
-            .then(function(res) {
-               mirrorcam.selectedDate = angular.extend(mirrorcam.selectedDate, {
-                    date: selectedDate,
-                    date_string: selectedDateString,
-                    photos: res.data.photos
-                });         
-
-                setTimeout(function() {
-                    mirrorcam.thumbnails_swipe_pane.reInit(); 
-                    mirrorcam.thumbnails_swipe_pane.swipeTo(0);
-                } , 0);         
-                
-                mirrorcam.megazoom_viewer.viewMegazoomImage(mirrorcam.selectedDate.photos[0].DateTimeDigitized); 
-            });
-        }
+        $scope.onChangeDate = function(datepicker_event) {
+           
+        } 
 
         $scope.viewTimelapseByDate = function(e) {
             jQuery(e.currentTarget).datepicker("hide");
