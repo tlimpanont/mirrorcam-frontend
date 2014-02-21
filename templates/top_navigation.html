@@ -11,7 +11,7 @@
       </button>
       <a class="navbar-brand" href="">mirrorcam</a>
     </div>
-
+  
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="top-menu">
         <ul class="nav navbar-nav navbar-left">
@@ -19,7 +19,7 @@
                 <div class="right-inner-addon">
                     <i class="glyphicon glyphicon-calendar"></i>
                     <input type="text" class="form-control" eyecon-bootstrap-datepicker
-                    format="{{ mirrorcam.date_format_from_json | lowercase }}" 
+                    format="{{ format | lowercase }}" 
                     available-dates="availableDates"  
                     selected-date="selectedDate"
                     on-change-date="onChangeDate"

@@ -52,13 +52,14 @@ FWDUtils.onReady(function(){
         }
     ])
     .controller("mainCtrl", function($scope, $aside, $stateParams, mirrorcam, availableDates, photosCamera, megazoomViewer) {
+        $scope.format = mirrorcam.date_format_from_json;
         $scope.availableDates = availableDates;
         $scope.selectedDate = moment($stateParams.date_string, mirrorcam.date_format_from_json);
         $scope.photos = photosCamera.photos;
         $scope.camera = photosCamera.camera[0];
 
         $scope.onChangeDate = function(datepicker_event) {
-           
+           megazoomViewer.rebuild(megazoomViewer.settings);
         } 
 
         $scope.viewTimelapseByDate = function(e) {

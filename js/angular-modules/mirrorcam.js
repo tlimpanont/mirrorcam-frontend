@@ -1,8 +1,26 @@
 FWDUtils.onReady(function() {
           
    angular.module('mirrorcam', [])
-    // plugin src: http://www.eyecon.ro/bootstrap-datepicker/
-    .directive("eyeconBootstrapDatepicker", function() {
+    .provider("datepicker", function() {
+        
+        this.settings = {
+            format: "yyyy-mm-dd"
+        }
+
+        this.instance = {};
+
+        this.$get = function(mirrorcam) {
+            angular.extend(this.settings, {
+                format: mirrorcam.date_format_from_json.toLowerCase()
+            })
+            return {
+                settings: this.settings,
+                instance: this.instance
+            }
+        }
+    })
+    .directive("eyeconBootstrapDatepicker", function(datepicker) {
+        // plugin src: http://www.eyecon.ro/bootstrap-datepicker/
         return {
             replace: false,
             scope: {
@@ -12,23 +30,23 @@ FWDUtils.onReady(function() {
                 display: "@",
                 onChangeDate: "="
             },
-            link: function(scope, element, attrs, controller) {
-                var _datepicker = angular.element(element).datepicker({
-                    onRender: scope.onRender,
-                    format: scope.format
-                })
-                _datepicker.on("changeDate", scope.onChangeDate);
-                if(scope.selectedDate != null)
-                    _datepicker.datepicker('setValue', scope.selectedDate);
-                _datepicker.datepicker(scope.display);
-                _datepicker.datepicker("place");
-            },
             controller: function($scope) {
                 $scope.onRender = function(date) {
                     return _.contains(_.map($scope.availableDates, function(_date) {
                         return _date = _date.valueOf();
                     }), date.valueOf()) ? "" : "disabled";
                 }
+            },
+            link: function(scope, element, attrs, controller) {
+                datepicker.instance = angular.element(element).datepicker({
+                    onRender: scope.onRender,
+                    format: scope.format
+                })
+                datepicker.instance.on("changeDate", scope.onChangeDate);
+                if(scope.selectedDate != null)
+                    datepicker.instance.datepicker('setValue', scope.selectedDate);
+                datepicker.instance.datepicker(scope.display);
+                datepicker.instance.datepicker("place");
             }
         }
     })
@@ -124,33 +142,49 @@ FWDUtils.onReady(function() {
             contextMenuItemDisabledColor:"#595b5b"
         }
         this.instance = {};
-
+       
         this.$get = function() {
             return {
                 settings: this.settings,
-                instance: this.instance
+                instance: this.instance,
+                rebuild: function(settings) {
+                    jQuery( "#" +this.settings.parentId).html("");
+                    jQuery( "#" +this.settings.parentId)
+                    .prepend("<div id='playListAndSkinId' style='display: none;'></div>"); 
+                    this.instance.destroy();
+                    this.instance = new FWDMegazoom(settings);
+                }
             }
         }
 
     })
     .directive("megazoomViewer", function(mirrorcam, megazoomViewer) {
          return {
-            reaplace: true,
+            replace: false,
+            scope: {
+                playListAndSkinId : "&"
+            },
+            template: "<div id='playListAndSkinId' style='display: none;'></div>",
             controller: function($scope) {
                 $scope.randomId = function(prefix) {
                     return prefix + Math.floor(Math.random() * 100000);
                 }
-                $scope.width = "100%";
-                $scope.height = jQuery(window).height() - 100 +  "px";
-            },  
+            }, 
             link: function(scope, element, attrs, controller) {
-                scope.parentId = scope.randomId("parentId_");
-                scope.playListAndSkinId = scope.randomId("playListAndSkinId_");
+                var parentId =  scope.randomId("parentId_");
+
+                angular.element(element).attr("id", parentId);
+                angular.element(element).css({
+                    width: "100%",
+                    height: jQuery(window).height() - 100 +  "px"
+                });
 
                 angular.extend(megazoomViewer.settings, {
-                    parentId: scope.parentId,
-                    playListAndSkinId: scope.playListAndSkinId,
+                    parentId: parentId,
+                    playListAndSkinId: 'playListAndSkinId',
                 });
+
+                megazoomViewer.instance = new FWDMegazoom(megazoomViewer.settings);
             }
         }
     })
@@ -217,30 +251,10 @@ FWDUtils.onReady(function() {
 
         this.$get = function($http) {
             return {
-                extend: function($scope, availableDates, dateString, portalData) {
-                    $scope.availableDates = availableDates;
-                    $scope.selectedDate = moment(dateString, this.date_format_from_json);
-                    $scope.selectedDateString = dateString;
-                    $scope.portalData = portalData;
-                    $scope.photos = portalData.photos;
-                    $scope.camera = portalData.camera[0];
-
-                    var resolve = {
-                        availableDates: $scope.availableDates,
-                        selectedDate: {
-                            date: $scope.selectedDate,
-                            date_string: $scope.selectedDateString,
-                            photos: $scope.photos,
-                            selected_photo: $scope.photos[0]
-                        },
-                        camera: $scope.camera
-                    };
-                    return angular.extend(this, resolve);
-                },
                 camera_key: "08a680aa585518f150469a1b5a64bb10" ,
                 base_url: base_url,
                 api_base_url: api_base_url,
-                date_format_from_json: "YYYY-MM-DD" ,
+                date_format_from_json: "YYYY-MM-DD", // based on moment.js lib convention
                 thumbnails_swipe_pane: {
                     settings: {
                         mode:'horizontal',
@@ -251,79 +265,6 @@ FWDUtils.onReady(function() {
                         keyboardControl: true,
                         freeMode: true,
                         freeModeFluid: true
-                    }
-                },
-                megazoom_viewer: {
-                    settings: {
-                        //----main----//
-                        parentId:"myDiv",
-                        playListAndSkinId:"megazoomPlayList",
-                        displayType:"reponsive",
-                        skinPath:"css/megazoom-viewer/skin_embossed_grey/skin/",
-                        imagePath:"css/megazoom-viewer/skin_embossed_grey/imageToZoom.jpg",
-                        preloaderText:"Loading image...",
-                        useEntireScreen:"yes",
-                        addKeyboardSupport:"yes",
-                        addDoubleClickSupport:"yes",
-                        imageWidth:2490,
-                        imageHeight:3300,
-                        zoomFactor:1.4,
-                        doubleClickZoomFactor:1,
-                        startZoomFactor:"default",
-                        panSpeed:8,
-                        zoomSpeed:.1,
-                        backgroundColor:"#FFF",
-                        preloaderFontColor:"#a2a3a3",
-                        preloaderBackgroundColor:"#FFF",
-                        //----lightbox-----//
-                        lightBoxWidth:800,
-                        lightBoxHeight:550,
-                        lightBoxBackgroundOpacity:.8,
-                        lightBoxBackgroundColor:"#FFF",
-                        //----controller----//
-                        buttons:"moveLeft, moveRight, moveDown, moveUp, scrollbar, hideOrShowMarkers, hideOrShowController, info, fullscreen",
-                        buttonsToolTips:"Move left, Move right, Move down, Move up, Zoom level: , Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
-                        controllerPosition:"bottom",
-                        inversePanDirection:"yes",
-                        startSpaceBetweenButtons:10,
-                        spaceBetweenButtons:10,
-                        startSpaceForScrollBarButtons:20,
-                        startSpaceForScrollBar:6,
-                        hideControllerDelay:3,
-                        controllerMaxWidth:940,
-                        controllerBackgroundOpacity:1,
-                        controllerOffsetY:0,
-                        scrollBarOffsetX:0,
-                        scrollBarHandlerToolTipOffsetY:-4,
-                        zoomInAndOutToolTipOffsetY:-1,
-                        buttonsToolTipOffsetY:4,
-                        hideControllerOffsetY:4,
-                        buttonToolTipFontColor:"#a2a3a3",
-                        //----navigator----//
-                        showNavigator:"yes",
-                        showNavigatorOnMobile:"yes",
-                        navigatorImagePath:"css/megazoom-viewer/skin_embossed_grey/navigatorImage.jpg",
-                        navigatorPosition:"topright",
-                        navigatorOffsetX:6,
-                        navigatorOffsetY:6,
-                        navigatorHandlerColor:"#FF0000",
-                        navigatorBorderColor:"#AAAAAA",
-                        //----info window----//
-                        infoWindowBackgroundOpacity:.6,
-                        infoWindowBackgroundColor:"#4c4c4c",
-                        infoWindowScrollBarColor:"#999999",
-                        //----markers-----//
-                        showMarkersInfo:"no",
-                        markerToolTipOffsetY:0,
-                        //----context menu----//
-                        showScriptDeveloper:"no",
-                        contextMenuLabels:"Move left, Move right, Move down, Move up, Zoom in/Zoom out, Hide markers/Show markers, Hide controller/Show controller, Info, Full screen/Normal screen",
-                        contextMenuBackgroundColor:"#4c4c4c",
-                        contextMenuBorderColor:"#727272",
-                        contextMenuSpacerColor:"#727272",
-                        contextMenuItemNormalColor:"#a2a3a3",
-                        contextMenuItemSelectedColor:"#FFFFFF",
-                        contextMenuItemDisabledColor:"#595b5b"
                     }
                 }
             }   // END returning
