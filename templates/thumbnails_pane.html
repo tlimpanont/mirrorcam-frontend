@@ -17,6 +17,7 @@
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs">
 			  <li class="active"><a href="#home" data-toggle="tab">Thumbnails</a></li>
+			  <li><a href="" ng-click="goToCurrentSlide()">Current <span class="glyphicon glyphicon-picture"></span></a></li>
 			  <li style="float: right;">
 			  	<a class="close_pane" ng-click="closePane()" href="" ><span class="glyphicon glyphicon-remove-circle"></span></a>
 			  </li>
@@ -27,15 +28,15 @@
 			  <div class="tab-pane active" id="home">
 			  <center> 		
 					<div id="{{container_id}}" class="swiper-container" style="height: {{thumb_height+thumb_margin}}px;">
-						<a ng-if="swiperPane.activeIndex > 0" class="thumb_pane_nav prev" href="" ng-click="prevSlide()">
+						<a ng-if="thumbnailsSwipePane.instance.activeIndex > 0" class="thumb_pane_nav prev" href="" ng-click="prevSlide()">
 							<span class="glyphicon glyphicon-chevron-left"></span>
 						</a>
-						<a ng-if="( swiperPane.slides.length - swiperPane.activeIndex ) != slidesPerView " class="thumb_pane_nav next" href="" ng-click="nextSlide()">
+						<a ng-if="( thumbnailsSwipePane.instance.slides.length - thumbnailsSwipePane.instance.activeIndex ) != slidesPerView " class="thumb_pane_nav next" href="" ng-click="nextSlide()">
 							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
 						<div class="swiper-wrapper" style="height: {{thumb_height+thumb_margin}}px;">
-							<div class="swiper-slide" ng-repeat="thumb in mirrorcam.selectedDate.photos">
-								<a href="" ng-click="mirrorcam.megazoom_viewer.viewMegazoomImage(thumb.DateTimeDigitized)"><img ng-src="{{ mirrorcam.base_url + mirrorcam.camera.thumb_path + thumb.FileName }}" class="img-thumbnail" ng-class="{active : thumb.isActive}"></a>
+							<div class="swiper-slide" ng-repeat="thumb in photos">
+								<a href="" ng-click="displayPhoto(thumb)"><img ng-src="{{ mirrorcam.base_url + camera.thumb_path + thumb.FileName }}" class="img-thumbnail" ng-class="{active : thumb.isActive}"></a>
 								<p class="text-center">{{thumb.DateTimeDigitized}}</p>
 							</div>
 							<div class="pagination"></div>

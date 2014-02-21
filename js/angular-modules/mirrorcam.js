@@ -7,7 +7,7 @@ FWDUtils.onReady(function() {
             format: "yyyy-mm-dd"
         }
 
-        this.instance = {};
+        this.instance = null;
 
         this.$get = function(mirrorcam) {
             angular.extend(this.settings, {
@@ -23,6 +23,7 @@ FWDUtils.onReady(function() {
         // plugin src: http://www.eyecon.ro/bootstrap-datepicker/
         return {
             replace: false,
+            name: "controller",
             scope: {
                 format : "@",
                 availableDates : "=",
@@ -30,16 +31,13 @@ FWDUtils.onReady(function() {
                 display: "@",
                 onChangeDate: "="
             },
-            controller: function($scope) {
-                $scope.onRender = function(date) {
-                    return _.contains(_.map($scope.availableDates, function(_date) {
-                        return _date = _date.valueOf();
-                    }), date.valueOf()) ? "" : "disabled";
-                }
-            },
             link: function(scope, element, attrs, controller) {
                 datepicker.instance = angular.element(element).datepicker({
-                    onRender: scope.onRender,
+                    onRender: function(date) {
+                            return _.contains(_.map(scope.availableDates, function(_date) {
+                            return _date = _date.valueOf();
+                        }), date.valueOf()) ? "" : "disabled";
+                    },
                     format: scope.format
                 })
                 datepicker.instance.on("changeDate", scope.onChangeDate);
@@ -141,19 +139,32 @@ FWDUtils.onReady(function() {
             contextMenuItemSelectedColor:"#FFFFFF",
             contextMenuItemDisabledColor:"#595b5b"
         }
-        this.instance = {};
+        this.instance = null;
        
         this.$get = function() {
             return {
                 settings: this.settings,
                 instance: this.instance,
-                rebuild: function(settings) {
+                init: function(settings) {
                     jQuery( "#" +this.settings.parentId).html("");
                     jQuery( "#" +this.settings.parentId)
                     .prepend("<div id='playListAndSkinId' style='display: none;'></div>"); 
-                    this.instance.destroy();
+                    if(this.instance)
+                        this.instance.destroy();
                     this.instance = new FWDMegazoom(settings);
+                },
+                buildSettings: function(mirrorcam, camera, photos, photo) {
+                    
+                    angular.extend(this.settings, {
+                        imagePath: mirrorcam.base_url + camera.upload_path + photo.FileName,
+                        navigatorImagePath: mirrorcam.base_url + camera.thumb_path + photo.FileName,
+                        imageWidth: photo.Width ,
+                        imageHeight: photo.Height
+                    })
+
+                    return this.settings;
                 }
+
             }
         }
 
@@ -161,18 +172,13 @@ FWDUtils.onReady(function() {
     .directive("megazoomViewer", function(mirrorcam, megazoomViewer) {
          return {
             replace: false,
+            name: "controller",
             scope: {
                 playListAndSkinId : "&"
             },
             template: "<div id='playListAndSkinId' style='display: none;'></div>",
-            controller: function($scope) {
-                $scope.randomId = function(prefix) {
-                    return prefix + Math.floor(Math.random() * 100000);
-                }
-            }, 
             link: function(scope, element, attrs, controller) {
-                var parentId =  scope.randomId("parentId_");
-
+                var parentId =  "parentId_" + Math.floor(Math.random() * 100000);
                 angular.element(element).attr("id", parentId);
                 angular.element(element).css({
                     width: "100%",
@@ -183,55 +189,86 @@ FWDUtils.onReady(function() {
                     parentId: parentId,
                     playListAndSkinId: 'playListAndSkinId',
                 });
-
-                megazoomViewer.instance = new FWDMegazoom(megazoomViewer.settings);
             }
         }
     })
-    .directive("thumbnailsSwipePane", function(mirrorcam) {
+    .provider("thumbnailsSwipePane", function() {
+        
+        this.settings = {
+            mode:'horizontal',
+            loop: false,
+            slidesPerView: 4,
+            simulateTouch: true,
+            mousewheelControl: true,
+            keyboardControl: true,
+            freeMode: true,
+            freeModeFluid: true
+        }
+
+        this.instance = null;
+
+        this.$get = function(mirrorcam) {
+            return {
+                settings: this.settings,
+                instance: this.instance
+            }
+        }
+    })
+    .directive("thumbnailsSwipePane", function(mirrorcam, thumbnailsSwipePane, megazoomViewer) {
         return {
             templateUrl: "templates/thumbnails_pane.html",
+            name: "controller",
             link: function(scope, element, attrs, controller) {
-                scope.container_id = scope.containerId();
+                scope.container_id = "swiper_container_" + Math.floor(Math.random() * 10000);
                 scope.thumb_margin = 20;
                 scope.thumb_width = 150;
                 scope.thumb_height = 150;
                 scope.slidesPerView = 6;
 
                 setTimeout(function() {
-                    var settings = angular.extend( mirrorcam.thumbnails_swipe_pane.settings, {
+                    var settings = angular.extend( thumbnailsSwipePane.settings, {
                         slidesPerView: scope.slidesPerView
                     });
-                    var swiperPane = new Swiper("#"+scope.container_id, settings);
-                    mirrorcam.thumbnails_swipe_pane = swiperPane;
-                    mirrorcam.thumbnails_swipe_pane.settings = settings;
-                    scope.swiperPane = swiperPane;
+                    thumbnailsSwipePane.instance = new Swiper("#"+scope.container_id, settings);
+                    scope.thumbnailsSwipePane = thumbnailsSwipePane;
+                    
+                    if(attrs.display == "open")
+                    {
+                         scope.openPane(function() {
+                            thumbnailsSwipePane.instance.swipeTo(Math.floor(_.indexOf(scope.photos, scope.selectedPhoto)));
+                         });
+                    }
+                    else
+                    {
+                         scope.openPane(function() {
+                            thumbnailsSwipePane.instance.swipeTo(Math.floor(_.indexOf(scope.photos, scope.selectedPhoto)));
+                         });
+                    }
+                        
                 }, 0);
-            },
-            controller: function($scope, mirrorcam) {
-                $scope.mirrorcam = mirrorcam;
 
-                $scope.containerId = function() {
-                    return "swiper_container_" + Math.floor(Math.random() * 10000);
+                scope.goToCurrentSlide = function() {
+                    thumbnailsSwipePane.instance.swipeTo(Math.floor(_.indexOf(scope.photos, scope.selectedPhoto)));
+                }
+        
+                scope.nextSlide = function() {
+                    thumbnailsSwipePane.instance.swipeNext();
                 }
 
-                $scope.nextSlide = function() {
-                    mirrorcam.thumbnails_swipe_pane.swipeNext();
+                scope.prevSlide = function() {
+                    thumbnailsSwipePane.instance.swipePrev();
                 }
 
-                $scope.prevSlide = function() {
-                    mirrorcam.thumbnails_swipe_pane.swipePrev();
-                }
-
-                $scope.openPane = function() {   
+                scope.openPane = function(callback) {   
                     jQuery("#pane_container").animate({"margin-top": -250}, function() {
-                        jQuery(this).find(".close_pane").fadeIn();
+                        jQuery(this).find(".close_pane").fadeIn(callback);
                     });
                 }
-                $scope.closePane = function() {
+                scope.closePane = function() {
                     jQuery(".close_pane").hide();
                     jQuery("#pane_container").animate({"margin-top": 0});
-                }
+                } 
+
             }
         }
     })
@@ -254,19 +291,7 @@ FWDUtils.onReady(function() {
                 camera_key: "08a680aa585518f150469a1b5a64bb10" ,
                 base_url: base_url,
                 api_base_url: api_base_url,
-                date_format_from_json: "YYYY-MM-DD", // based on moment.js lib convention
-                thumbnails_swipe_pane: {
-                    settings: {
-                        mode:'horizontal',
-                        loop: false,
-                        slidesPerView: 4,
-                        simulateTouch: true,
-                        mousewheelControl: true,
-                        keyboardControl: true,
-                        freeMode: true,
-                        freeModeFluid: true
-                    }
-                }
+                date_format_from_json: "YYYY-MM-DD" // based on moment.js lib convention
             }   // END returning
         } // END $get function   
     });
