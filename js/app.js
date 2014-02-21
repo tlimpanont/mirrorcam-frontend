@@ -1,65 +1,49 @@
 FWDUtils.onReady(function(){
 
-    angular.module('myApp', ['ui.router', 'ngSanitize', 'mgcrea.ngStrap', 'mirrorcam'])
+    angular.module('myApp', ['ui.router', 'ngRoute', 'ngSanitize', 'mgcrea.ngStrap', 'mirrorcam'])
     .config(function(mirrorcamProvider) {
        //console.log(mirrorcamProvider);
     })
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider) {
-           //$locationProvider.html5Mode(true);
-            //$urlRouterProvider.otherwise("/");
-            $stateProvider.
-            state('index', {
-                url: "/",
-                controller: function($state, mirrorcam) {
-                    $state.go("camera", { camera_key: mirrorcam.camera_key });
-                }
-            })
-            .state('camera', {
-                url: "/:camera_key",
-                controller: function(availableDates, $state, $stateParams, mirrorcam) {
-                    mirrorcam.camera_key = $stateParams.camera_key;
-                    $state.go("camera_date_string", {
-                            camera_key: $stateParams.camera_key, 
-                            date_string: moment(_.max(availableDates)).format(mirrorcam.date_format_from_json)
-                    });
-                },
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$routeProvider',
+        function($stateProvider, $urlRouterProvider, $locationProvider, $routeProvider) {
+            //$locationProvider.html5Mode(true).hashPrefix('!');
+            $routeProvider.
+              when('/:camera_key/:date_string', {
+                templateUrl: 'templates/index.html',
                 resolve: {
-                    availableDates: function(server, mirrorcam, $stateParams) {
-                        return server.loadAvailableDates($stateParams.camera_key);
-                    }
-                }
-            })
-            .state('camera_date_string', {
-                url: "/:camera_key/:date_string",
-                templateUrl:  "templates/index.html",
-                controller: "mainCtrl",
-                resolve: {
-                    availableDates: function(server, mirrorcam, $stateParams) {
-                        return server.loadAvailableDates($stateParams.camera_key);
+                    availableDates: function(server, mirrorcam, $route) {
+                        return server.loadAvailableDates($route.current.params.camera_key);
                     },
-                    photosCamera: function($q, server, $stateParams) {
+                    photosCamera: function($q, server, $route) {
                         var defer = $q.defer();
                         
-                        server.loadPhotos($stateParams.camera_key, $stateParams.date_string).success(function(portalData) {
+                        server.loadPhotos($route.current.params.camera_key, $route.current.params.date_string).success(function(portalData) {
                             defer.resolve(portalData);
                         });
 
                         return defer.promise;
                     }
-                }
-            })
+                },
+                controller: "mainCtrl"
+              })
         }
     ])
-    .controller("mainCtrl", function($scope, $aside, $stateParams, mirrorcam, availableDates, photosCamera, megazoomViewer) {
+    .controller("mainCtrl", function($rootScope, $scope, $aside, $route, $location, mirrorcam, megazoomViewer, datepicker) {
+        var availableDates = $route.current.locals.availableDates;
+        var photosCamera  = $route.current.locals.photosCamera;
         $scope.format = mirrorcam.date_format_from_json;
         $scope.availableDates = availableDates;
-        $scope.selectedDate = moment($stateParams.date_string, mirrorcam.date_format_from_json);
+        $scope.selectedDate = moment($route.current.params.date_string, mirrorcam.date_format_from_json);
         $scope.photos = photosCamera.photos;
         $scope.camera = photosCamera.camera[0];
 
         $scope.onChangeDate = function(datepicker_event) {
-           megazoomViewer.rebuild(megazoomViewer.settings);
+           datepicker.instance.datepicker("hide");
+            var date_string = moment(datepicker_event.date).format(mirrorcam.date_format_from_json);
+            $rootScope.$apply(function() {
+                $location.path("/"+$route.current.params.camera_key+"/"+date_string);
+                console.log($location.path());
+            });
         } 
 
         $scope.viewTimelapseByDate = function(e) {
